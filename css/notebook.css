@@ -116,41 +116,17 @@
 .seal-prompt-text {
   font-family: var(--ff-serif);
   font-style: italic;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   color: var(--faded-ink);
   letter-spacing: 0.04em;
 }
 
-.unseal-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.65rem 1.45rem;
-  border-radius: 999px;
-  border: 1.2px solid rgba(212, 175, 55, 0.65);
-  background: linear-gradient(135deg, rgba(82, 42, 68, 0.92) 0%, rgba(56, 26, 45, 0.98) 100%);
-  color: var(--gold-soft);
-  font-family: var(--ff-display);
-  font-size: 0.94rem;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(44, 20, 36, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s var(--transition-spring), box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.unseal-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 10px 24px rgba(44, 20, 36, 0.38), 0 0 14px rgba(212, 175, 55, 0.4);
-  border-color: #ffd875;
-}
-
-.unseal-btn:active {
-  transform: scale(0.97);
-}
-
-.unseal-btn-gem {
+.seal-prompt-hint {
+  font-family: var(--ff-serif);
+  font-size: 0.96rem;
   color: var(--gold-foil);
-  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
 }
 
 /* Hidden letter inner state when sealed */

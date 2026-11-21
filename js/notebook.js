@@ -194,7 +194,6 @@
   saveBtn.addEventListener('click', handleSave);
 
   const waxCrest   = document.getElementById('letterWaxCrest');
-  const unsealBtn  = document.getElementById('unsealBtn');
   const letterCard = document.querySelector('.sealed-letter-card');
 
   function triggerUnseal() {
@@ -221,13 +220,6 @@
         e.preventDefault();
         triggerUnseal();
       }
-    });
-  }
-
-  if (unsealBtn) {
-    unsealBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      triggerUnseal();
     });
   }
 
