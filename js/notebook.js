@@ -13,7 +13,7 @@
 
   if (!nameInput || !textarea || !saveBtn || !entriesEl || !emptyEl) return;
 
-  const STORAGE_KEY = 'mf_keepsake_notes_v3';
+  const STORAGE_KEY = 'mf_keepsake_notes_v4';
   const LEGACY_KEY  = 'mf_anniversary_notes_v2';
   const MAX_CHARS   = 500;
 
@@ -33,7 +33,7 @@
     }
   ];
 
-  // ── Load from localStorage (migrating any custom notes cleanly) ──
+  // ── Load from localStorage ──
   function loadEntries() {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -41,26 +41,7 @@
         return JSON.parse(stored);
       }
 
-      // Migrate any custom notes written previously in v2 while refreshing defaults
-      let initial = [...DEFAULT_ENTRIES];
-      const legacy = localStorage.getItem(LEGACY_KEY);
-      if (legacy) {
-        const parsedLegacy = JSON.parse(legacy);
-        if (Array.isArray(parsedLegacy)) {
-          const customNotes = parsedLegacy.filter(
-            (e) => e && e.id !== 'default-1' && e.id !== 'default-2' && e.message
-          );
-          if (customNotes.length) {
-            initial = initial.concat(customNotes.map((e) => ({
-              id: e.id || ('note-' + Date.now()),
-              name: e.name || 'With Love',
-              message: e.message,
-              timestamp: e.timestamp || Date.now()
-            })));
-          }
-        }
-      }
-
+      const initial = [...DEFAULT_ENTRIES];
       saveEntries(initial);
       return initial;
     } catch {
