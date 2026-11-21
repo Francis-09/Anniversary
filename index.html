@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maria &amp; Francis · Our Story</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%232b1824' stroke='%23d4af37' stroke-width='3'/%3E%3Cpath d='M32 48 C32 48 14 36 14 24 C14 18.5 18.5 14 24 14 C27.5 14 30.5 16 32 19 C33.5 16 36.5 14 40 14 C45.5 14 50 18.5 50 24 C50 36 32 48 32 48Z' fill='%23e8cf88'/%3E%3C/svg%3E" />
+
+  <!-- Google Fonts (Editorial Serif, Script & Handwritten) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/slideshow.css" />
+  <link rel="stylesheet" href="css/hero.css" />
+  <link rel="stylesheet" href="css/gallery.css" />
+  <link rel="stylesheet" href="css/notebook.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 1: ANTIQUE HARDCOVER MEMORY BOOK
+  ═══════════════════════════════════════════ -->
+  <section id="slideshow-section" class="book-section visible">
+    <!-- Structured chapter data for the 12 book spreads -->
+    <div id="bookChaptersData" style="display: none;" aria-hidden="true">
+      <article class="book-chapter-item"
+        data-img="assets/images/1st day.jpg"
+        data-alt="Our first day"
+        data-numeral="I"
+        data-subtitle="The Spark"
+        data-title="The beginning of us"
+        data-quote="Every great love story has a first chapter."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/1st dagat.jpg"
+        data-alt="Our first beach together"
+        data-numeral="II"
+        data-subtitle="Saltwater &amp; Sun"
+        data-title="Our first beach together"
+        data-quote="Where the waves are wild and so is my love for you."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/1st museum.png"
+        data-alt="Museum afternoon"
+        data-numeral="III"
+        data-subtitle="Whispers in the Gallery"
+        data-title="Art dates &amp; holding hands"
+        data-quote="You are my favorite work of art."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/1st fine dining.jpg"
+        data-alt="Candlelit dinner"
+        data-numeral="IV"
+        data-subtitle="Candlelight"
+        data-title="You make every meal a celebration"
+        data-quote="The best table is wherever you're sitting."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/1st fireworks date.jpg"
+        data-alt="First fireworks evening"
+        data-numeral="V"
+        data-subtitle="Sparks in the Dark"
+        data-title="Fireworks, every single time"
+        data-quote="My heart lights up the same way each time I see you."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/1st simba.jpg"
+        data-alt="Simba together with us"
+        data-numeral="VI"
+        data-subtitle="Little Paws"
+        data-title="Even Simba ships us"
+        data-quote="Love finds its way into every corner of our life."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/sunset.jpg"
+        data-alt="Golden sunset"
+        data-numeral="VII"
+        data-subtitle="Dusk &amp; Dawn"
+        data-title="Golden hour with my golden person"
+        data-quote="Every sunset I want to share with you."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/sb date.jpg"
+        data-alt="Starbucks coffee date"
+        data-numeral="VIII"
+        data-subtitle="Warm Sips &amp; Laughter"
+        data-title="Starbucks runs &amp; forever talks"
+        data-quote="My favorite place is anywhere next to you."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/zus date.jpg"
+        data-alt="Date night"
+        data-numeral="IX"
+        data-subtitle="Simple Nights"
+        data-title="Date nights are our love language"
+        data-quote="Time spent with you is never wasted."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/2nd fireworks.jpg"
+        data-alt="Second fireworks evening"
+        data-numeral="X"
+        data-subtitle="Brighter Every Year"
+        data-title="More fireworks, more memories"
+        data-quote="Every year just keeps getting brighter."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/samg.jpg"
+        data-alt="Adventures together"
+        data-numeral="XI"
+        data-subtitle="Sizzles &amp; Smiles"
+        data-title="Adventures together, always"
+        data-quote="Life is better when we're exploring it together."></article>
+
+      <article class="book-chapter-item"
+        data-img="assets/images/fam bonding.jpg"
+        data-alt="Family bonding"
+        data-numeral="XII"
+        data-subtitle="The Heart of Everything"
+        data-title="Family makes everything beautiful"
+        data-quote="The ones we love are the reason for everything."></article>
+    </div>
+
+    <!-- Pinned Reading Desk Stage -->
+    <div class="book-stage-sticky" id="bookStageSticky">
+      <div class="book-desk-backdrop" aria-hidden="true"></div>
+      <div class="book-hearts-layer" id="bookHeartsLayer" aria-hidden="true"></div>
+
+      <!-- Main Book Stage -->
+      <div class="book-stage-center">
+        <div class="book-perspective-wrap">
+          <div class="book-assembly" id="bookAssembly">
+            <div class="book-desk-shadow"></div>
+
+            <!-- Outer Leather Casing Left & Right -->
+            <div class="book-casing book-casing--left" aria-hidden="true">
+              <span class="casing-brass-corner casing-brass-corner--tl"></span>
+              <span class="casing-brass-corner casing-brass-corner--bl"></span>
+              <div class="page-block-edge page-block-edge--left"></div>
+            </div>
+
+            <div class="book-casing book-casing--right" aria-hidden="true">
+              <span class="casing-brass-corner casing-brass-corner--tr"></span>
+              <span class="casing-brass-corner casing-brass-corner--br"></span>
+              <div class="page-block-edge page-block-edge--right"></div>
+            </div>
+
+            <div class="book-spine-crease" aria-hidden="true"></div>
+            <div class="book-silk-ribbon" aria-hidden="true"><div class="ribbon-tail"></div></div>
+
+            <!-- Stationary Final Right Board (Epilogue Spread) -->
+            <div class="book-board-back parchment-surface">
+              <div class="leaf-cast-shadow leaf-cast-shadow--right" aria-hidden="true"></div>
+              <div class="story-inner-border">
+                <span class="epilogue-right-eyebrow">Epilogue</span>
+                <div class="story-center-body">
+                  <div class="story-floral-rule" aria-hidden="true">
+                    <svg width="26" height="14" viewBox="0 0 26 14" fill="none">
+                      <path d="M13 1 C11 5 7 7 1 7 C7 7 11 9 13 13 C15 9 19 7 25 7 C19 7 15 5 13 1Z" fill="currentColor" opacity="0.85"/>
+                    </svg>
+                  </div>
+                  <h3 class="epilogue-right-title">And the story goes on...</h3>
+                  <p class="epilogue-right-copy">
+                    Every page we turned brought us here — with countless unwritten chapters waiting ahead for us, Maria &amp; Francis.
+                  </p>
+                  <button type="button" class="book-enter-btn" id="enterBtn">
+                    <span>Continue Our Story</span>
+                    <span class="book-enter-arrow">↓</span>
+                  </button>
+                </div>
+                <span class="epilogue-footer-mark" aria-hidden="true">M &amp; F</span>
+              </div>
+            </div>
+
+            <!-- Dynamic 3D Page Leaves injected cleanly by js/slideshow.js -->
+            <div id="bookLeavesContainer"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiet Chapter Indicator & Turn Controls -->
+      <nav class="book-desk-dock" aria-label="Book page navigation">
+        <div class="book-dock-pill">
+          <button type="button" class="dock-step-btn" id="dockPrevBtn" aria-label="Previous page" title="Previous page">❮</button>
+          <span class="dock-chapter-readout" id="bookReadout">Cover</span>
+          <button type="button" class="dock-step-btn" id="dockNextBtn" aria-label="Next page" title="Next page">❯</button>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 2: HEIRLOOM KEEPSAKE PLAQUE & LOVE COUNTER
+  ═══════════════════════════════════════════ -->
+  <section id="hero-section" class="hero-section">
+
+    <!-- Delicate Botanical Corner Florals -->
+    <div class="deco deco--flower deco--flower-l" aria-hidden="true">
+      <svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#c4a8d4" opacity=".55" transform="rotate(-20 30 20)"/>
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#d4bce4" opacity=".48" transform="rotate(20 30 20)"/>
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#b89ec8" opacity=".48" transform="rotate(-60 30 20)"/>
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#c8aad8" opacity=".4" transform="rotate(60 30 20)"/>
+        <circle cx="30" cy="20" r="5" fill="#e8cf88"/>
+        <rect x="29" y="28" width="1.6" height="40" rx="1" fill="#7a9e7e" opacity=".65"/>
+        <ellipse cx="22" cy="52" rx="7" ry="3.5" fill="#8fb08e" opacity=".5" transform="rotate(-20 22 52)"/>
+      </svg>
+    </div>
+    <div class="deco deco--flower deco--flower-r" aria-hidden="true">
+      <svg viewBox="0 0 60 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#d4bce4" opacity=".55" transform="rotate(10 30 20)"/>
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#c4a8d4" opacity=".48" transform="rotate(-30 30 20)"/>
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#e0caf0" opacity=".48" transform="rotate(50 30 20)"/>
+        <ellipse cx="30" cy="20" rx="8" ry="14" fill="#b89ec8" opacity=".4" transform="rotate(-70 30 20)"/>
+        <circle cx="30" cy="20" r="5" fill="#e8cf88"/>
+        <rect x="29" y="28" width="1.6" height="40" rx="1" fill="#7a9e7e" opacity=".65"/>
+        <ellipse cx="38" cy="55" rx="7" ry="3.5" fill="#8fb08e" opacity=".5" transform="rotate(20 38 55)"/>
+      </svg>
+    </div>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Since December 1, 2023</p>
+      <h1 class="hero-names">Maria <span class="hero-amp">&amp;</span> Francis</h1>
+
+      <div class="hero-heart-wrap" aria-hidden="true">
+        <svg class="hero-heart" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21C12 21 3 14 3 8.5C3 5.42 5.42 3 8.5 3C10.24 3 11.91 3.81 12 5.08C12.09 3.81 13.76 3 15.5 3C18.58 3 21 5.42 21 8.5C21 14 12 21 12 21Z" fill="rgba(196,168,212,0.55)" stroke="#d4af37" stroke-width="1.2"/>
+        </svg>
+      </div>
+
+      <!-- Engraved Keepsake Time Plaque -->
+      <div class="love-counter-wrap">
+        <span class="plaque-rivet plaque-rivet--tl" aria-hidden="true"></span>
+        <span class="plaque-rivet plaque-rivet--tr" aria-hidden="true"></span>
+        <span class="plaque-rivet plaque-rivet--bl" aria-hidden="true"></span>
+        <span class="plaque-rivet plaque-rivet--br" aria-hidden="true"></span>
+        <span class="plaque-corner plaque-corner--tl" aria-hidden="true"></span>
+        <span class="plaque-corner plaque-corner--tr" aria-hidden="true"></span>
+        <span class="plaque-corner plaque-corner--bl" aria-hidden="true"></span>
+        <span class="plaque-corner plaque-corner--br" aria-hidden="true"></span>
+
+        <p class="counter-heading">Counting Every Moment Together</p>
+        <div class="love-timer" id="loveTimer">
+          <div class="timer-unit">
+            <span class="timer-num" id="timerDays">000</span>
+            <span class="timer-lbl">Days</span>
+          </div>
+          <span class="timer-sep" aria-hidden="true">·</span>
+          <div class="timer-unit">
+            <span class="timer-num" id="timerHours">00</span>
+            <span class="timer-lbl">Hours</span>
+          </div>
+          <span class="timer-sep" aria-hidden="true">·</span>
+          <div class="timer-unit">
+            <span class="timer-num" id="timerMinutes">00</span>
+            <span class="timer-lbl">Minutes</span>
+          </div>
+          <span class="timer-sep" aria-hidden="true">·</span>
+          <div class="timer-unit">
+            <span class="timer-num" id="timerSeconds">00</span>
+            <span class="timer-lbl">Seconds</span>
+          </div>
+        </div>
+        <p class="counter-sub">...and falling more in love each passing day</p>
+        <p class="counter-milestone">Over 25,900 Hours · 1,550,000+ Minutes of Loving You</p>
+      </div>
+
+      <p class="hero-quote">"Every day of choosing each other —<br>and I would choose you a thousand times over."</p>
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 3: GILDED ARCHIVAL PORTRAIT GALLERY
+  ═══════════════════════════════════════════ -->
+  <section id="gallery-section" class="gallery-section">
+
+    <div class="gallery-header">
+      <p class="gallery-eyebrow">Our Keepsake Archive</p>
+      <h2 class="gallery-title">Cherished Moments</h2>
+      <p class="gallery-subtitle">photographs &amp; days held close forever</p>
+      <div class="gallery-ornament" aria-hidden="true">
+        <span></span>
+        <svg width="20" height="12" viewBox="0 0 26 14" fill="none">
+          <path d="M13 1 C11 5 7 7 1 7 C7 7 11 9 13 13 C15 9 19 7 25 7 C19 7 15 5 13 1Z" fill="currentColor"/>
+        </svg>
+        <span></span>
+      </div>
+    </div>
+
+    <div class="gallery-grid">
+
+      <!-- Row 1 -->
+      <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-2.2">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/0.jpg" alt="Us, always" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">us, always</p>
+        </article>
+      </div>
+
+      <div class="polaroid-wrap polaroid-wrap--right" data-rotate="1.8">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/0.1.jpg" alt="My favorite smile" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">my favorite smile</p>
+        </article>
+      </div>
+
+      <!-- Gold-Foil Epigraph 1 -->
+      <blockquote class="epigraph-quote">
+        <p>"You are my today and all of my tomorrows."</p>
+        <footer>— M &amp; F</footer>
+      </blockquote>
+
+      <!-- Row 2 -->
+      <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-1.6">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/1.jpg" alt="This moment" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">this moment</p>
+        </article>
+      </div>
+
+      <div class="polaroid-wrap polaroid-wrap--right" data-rotate="2.6">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/1.1.jpg" alt="Soft and golden" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">soft and golden</p>
+        </article>
+      </div>
+
+      <!-- Gilded Miniature Triptych (preserving all 3 intimate snapshots without black filmstrip sprockets) -->
+      <div class="archival-trio" aria-label="Three miniature keepsake frames">
+        <figure class="trio-frame" data-caption="petals &amp; quiet beauty">
+          <img src="assets/images/flower.jpg" alt="Flowers for you" />
+        </figure>
+        <figure class="trio-frame" data-caption="little paws by our side">
+          <img src="assets/images/simba 2.jpg" alt="Sweet Simba" />
+        </figure>
+        <figure class="trio-frame" data-caption="amber skies with you">
+          <img src="assets/images/sunset 2.jpg" alt="Warm sunset sky" />
+        </figure>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-2.5">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/museum date.jpg" alt="Art and us" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">art &amp; us</p>
+        </article>
+      </div>
+
+      <div class="polaroid-wrap polaroid-wrap--right" data-rotate="1.4">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/random sb date.jpg" alt="Coffee and conversations" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">coffee &amp; conversations</p>
+        </article>
+      </div>
+
+      <!-- Fine Botanical Heart Flourish -->
+      <div class="scrap-doodle" aria-hidden="true">
+        <svg viewBox="0 0 180 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M90 50 C90 50 66 34 66 20 C66 13 71.5 8 78 8 C83 8 87.5 11.5 90 16 C92.5 11.5 97 8 102 8 C108.5 8 114 13 114 20 C114 34 90 50 90 50Z" stroke="#b59449" stroke-width="1.35" fill="rgba(196,168,212,0.16)"/>
+          <path d="M22 30 Q48 24 62 29 M158 30 Q132 24 118 29" stroke="#d4af37" stroke-width="0.9" opacity="0.65" stroke-linecap="round"/>
+          <text x="90" y="70" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-style="italic" font-size="13" fill="#7a6a58" letter-spacing="1.2">forever &amp; always</text>
+        </svg>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-1.2">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/fireworks 2.jpg" alt="Lighting up the sky" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">lighting up the sky</p>
+        </article>
+      </div>
+
+      <div class="polaroid-wrap polaroid-wrap--right" data-rotate="2.2">
+        <article class="polaroid archival-print">
+          <span class="print-corner print-corner--tl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--tr" aria-hidden="true"></span>
+          <span class="print-corner print-corner--bl" aria-hidden="true"></span>
+          <span class="print-corner print-corner--br" aria-hidden="true"></span>
+          <div class="polaroid-img-wrap">
+            <img src="assets/images/2.jpg" alt="Just the two of us" class="polaroid-img" />
+          </div>
+          <p class="polaroid-caption">just the two of us</p>
+        </article>
+      </div>
+
+      <!-- Gold-Foil Epigraph 2 -->
+      <blockquote class="epigraph-quote">
+        <p>"With you, every ordinary moment becomes extraordinary."</p>
+      </blockquote>
+
+    </div><!-- /.gallery-grid -->
+
+    <!-- Gallery Footer Divider -->
+    <div class="gallery-footer-deco" aria-hidden="true">
+      <div class="footer-line"></div>
+      <div class="footer-emblem">✦</div>
+      <div class="footer-line"></div>
+    </div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 4: SEALED LOVE LETTER & KEEPSAKE JOURNAL
+  ═══════════════════════════════════════════ -->
+  <section id="notebook-section" class="notebook-section">
+
+    <div class="notebook-header">
+      <p class="notebook-eyebrow">A Letter &amp; Keepsake</p>
+      <h2 class="notebook-title">For Maria, From Francis</h2>
+      <p class="notebook-subtitle">sealed with love for every chapter still ahead of us</p>
+    </div>
+
+    <!-- Wax-Sealed Dedicated Love Letter -->
+    <article class="sealed-letter-card" aria-label="Love letter from Francis to Maria">
+      <div class="letter-wax-crest" id="letterWaxCrest" role="button" tabindex="0" aria-label="Open wax seal" title="Click to unseal love letter">
+        <span class="letter-crest-monogram">M&amp;F</span>
+        <span class="letter-crest-heart">♥&#xFE0E;</span>
+      </div>
+
+      <div class="letter-inner-frame">
+        <p class="letter-salutation">My dearest Maria,</p>
+        <div class="letter-body">
+          <p>
+            From the day our story began on December 1, 2023, every quiet afternoon, spontaneous laugh, sunset drive, and simple moment beside you has become my favorite memory to hold onto.
+          </p>
+          <p>
+            Thank you for choosing me every single day, for making ordinary days feel effortless and warm, and for being the sweetest part of every tomorrow I look forward to.
+          </p>
+          <p>
+            No matter how many pages we fill in our story, my favorite place in the world will always be right next to you.
+          </p>
+        </div>
+        <p class="letter-signoff">
+          <span class="signoff-lead">Forever yours,</span>
+          <span class="signoff-name">Francis</span>
+        </p>
+      </div>
+    </article>
+
+    <!-- Private Keepsake Journal Between Us -->
+    <div class="keepsake-journal-block">
+      <div class="journal-subhead">
+        <h3 class="memory-book-title">Notes Between Us</h3>
+        <p class="journal-subcaption">a quiet space to tuck away thoughts for each other</p>
+      </div>
+
+      <div class="notebook-wrap">
+        <div class="notebook-spine" aria-hidden="true"></div>
+
+        <div class="notebook-page">
+          <div class="page-margin" aria-hidden="true"></div>
+
+          <div class="page-content">
+            <label class="page-label" for="notebookName">Written by</label>
+            <input type="text" id="notebookName" class="page-name-input" placeholder="Francis or Maria..." maxlength="40" />
+
+            <label class="page-label" for="notebookInput">A note to keep</label>
+            <textarea id="notebookInput" class="page-textarea" placeholder="Write something from the heart..." maxlength="500" rows="5"></textarea>
+
+            <div class="page-actions">
+              <button type="button" class="save-btn" id="saveBtn">
+                <span class="save-btn-icon">♥&#xFE0E;</span>
+                <span>Seal in Our Keepsake</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="page-lines" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Saved Keepsake Notes -->
+      <div class="memory-book" id="memoryBook">
+        <div class="memory-entries" id="memoryEntries">
+          <!-- Populated by JS -->
+        </div>
+        <p class="memory-empty" id="memoryEmpty">No saved notes yet — write the first one above.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Subtle drifting lavender petals overlay -->
+  <canvas id="ambientCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+  <!-- Archival Portrait Lightbox Modal (counter-free) -->
+  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-card" id="lightboxCard">
+      <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close photograph">✕</button>
+      <div class="lightbox-img-wrap">
+        <img src="" alt="" id="lightboxImg" class="lightbox-img" />
+      </div>
+      <div class="lightbox-controls">
+        <button type="button" class="lightbox-nav-btn" id="lightboxPrev" aria-label="Previous photograph">❮</button>
+        <p class="lightbox-caption" id="lightboxCaption"></p>
+        <button type="button" class="lightbox-nav-btn" id="lightboxNext" aria-label="Next photograph">❯</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal Velvet-Gold Music Jewel Pill -->
+  <div class="music-pill paused" id="musicPill">
+    <button type="button" class="music-toggle-btn" id="musicToggle" aria-label="Toggle music" title="Play Ikaw Lang Ang Mamahalin">
+      <svg class="vinyl-disc" id="vinylDisc" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 18V5l12-2v13"/>
+        <circle cx="6" cy="18" r="3"/>
+        <circle cx="18" cy="16" r="3"/>
+      </svg>
+    </button>
+    <div class="music-info">
+      <span class="music-title">Ikaw Lang Ang Mamahalin</span>
+    </div>
+    <div class="music-soundwaves" id="soundWaves" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- Wax Seal Back to Top Button -->
+  <button type="button" class="wax-seal-btn" id="waxSealBtn" aria-label="Back to top" title="Return to top">
+    <div class="wax-seal-inner">
+      <span class="wax-monogram">M&amp;F</span>
+      <span class="wax-heart">♥&#xFE0E;</span>
+    </div>
+  </button>
+
+  <!-- Audio -->
+  <audio id="bgMusic" preload="auto" loop>
+    <source src="assets/audio/romantic-bg.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Scripts -->
+  <script src="js/slideshow.js"></script>
+  <script src="js/gallery.js"></script>
+  <script src="js/notebook.js"></script>
+
+</body>
+</html>
