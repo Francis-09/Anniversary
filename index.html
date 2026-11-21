@@ -463,13 +463,25 @@
     </div>
 
     <!-- Wax-Sealed Dedicated Love Letter -->
-    <article class="sealed-letter-card" aria-label="Love letter from Francis to Maria">
-      <div class="letter-wax-crest" id="letterWaxCrest" role="button" tabindex="0" aria-label="Open wax seal" title="Click to unseal love letter">
+    <article class="sealed-letter-card is-sealed" aria-label="Love letter from Francis to Maria">
+      <div class="letter-wax-crest" id="letterWaxCrest" role="button" tabindex="0" aria-label="Unseal love letter" title="Click to unseal love letter">
         <span class="letter-crest-monogram">M&amp;F</span>
         <span class="letter-crest-heart">♥&#xFE0E;</span>
       </div>
 
-      <div class="letter-inner-frame">
+      <!-- Envelope / Wax-Sealed Flap Overlay -->
+      <div class="letter-seal-overlay" id="letterSealOverlay">
+        <div class="letter-seal-prompt">
+          <p class="seal-prompt-text">A private letter for Maria</p>
+          <button type="button" class="unseal-btn" id="unsealBtn" aria-label="Unseal letter">
+            <span class="unseal-btn-gem">✦</span>
+            <span>Tap seal to open</span>
+            <span class="unseal-btn-gem">✦</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="letter-inner-frame" id="letterInnerFrame">
         <p class="letter-salutation">My dearest Maria,</p>
         <div class="letter-body">
           <p>

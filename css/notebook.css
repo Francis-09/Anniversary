@@ -75,10 +75,111 @@
     0 4px 14px rgba(44, 36, 22, 0.08),
     inset 0 0 0 1px rgba(255, 255, 255, 0.9);
   transition: transform 0.4s var(--transition-spring), box-shadow 0.4s ease;
+  overflow: hidden;
+}
+
+/* ── Wax Seal Flap Overlay ── */
+.letter-seal-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(255, 253, 248, 0.97) 0%, rgba(247, 235, 213, 0.98) 75%, rgba(237, 218, 187, 0.99) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='linen'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23linen)' opacity='0.06'/%3E%3C/svg%3E");
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem 2rem;
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.85s ease;
+  pointer-events: auto;
+}
+
+.letter-seal-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed rgba(185, 169, 125, 0.6);
+  pointer-events: none;
+}
+
+.letter-seal-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  text-align: center;
+  position: relative;
+  z-index: 6;
+}
+
+.seal-prompt-text {
+  font-family: var(--ff-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--faded-ink);
+  letter-spacing: 0.04em;
+}
+
+.unseal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 1.45rem;
+  border-radius: 999px;
+  border: 1.2px solid rgba(212, 175, 55, 0.65);
+  background: linear-gradient(135deg, rgba(82, 42, 68, 0.92) 0%, rgba(56, 26, 45, 0.98) 100%);
+  color: var(--gold-soft);
+  font-family: var(--ff-display);
+  font-size: 0.94rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(44, 20, 36, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s var(--transition-spring), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.unseal-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 24px rgba(44, 20, 36, 0.38), 0 0 14px rgba(212, 175, 55, 0.4);
+  border-color: #ffd875;
+}
+
+.unseal-btn:active {
+  transform: scale(0.97);
+}
+
+.unseal-btn-gem {
+  color: var(--gold-foil);
+  font-size: 0.75rem;
+}
+
+/* Hidden letter inner state when sealed */
+.sealed-letter-card .letter-inner-frame {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(14px) scale(0.98);
+  transition: opacity 0.8s ease 0.2s, filter 0.8s ease 0.2s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  pointer-events: none;
+}
+
+/* Unsealed letter state: letter revealed cleanly */
+.sealed-letter-card.is-unsealed .letter-seal-overlay {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px) scale(1.03);
+  pointer-events: none;
+}
+
+.sealed-letter-card.is-unsealed .letter-inner-frame {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 
 .letter-wax-crest {
   position: relative;
+  z-index: 10;
   margin: -2.6rem auto 1rem;
   width: 66px;
   height: 66px;
@@ -110,11 +211,18 @@
   transform: scale(0.96);
 }
 
-.sealed-letter-card.unsealed .letter-wax-crest {
+.sealed-letter-card.is-unsealed .letter-wax-crest {
   border-color: #ffd875;
   box-shadow:
     0 6px 14px rgba(43, 24, 36, 0.3),
     0 0 16px rgba(212, 175, 55, 0.5);
+  animation: sealGlint 0.8s ease-out;
+}
+
+@keyframes sealGlint {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); filter: brightness(1.2); }
+  100% { transform: scale(1); }
 }
 
 .letter-wax-crest::before {

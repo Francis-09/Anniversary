@@ -193,18 +193,41 @@
   // ── Events ──
   saveBtn.addEventListener('click', handleSave);
 
-  const waxCrest = document.getElementById('letterWaxCrest');
+  const waxCrest   = document.getElementById('letterWaxCrest');
+  const unsealBtn  = document.getElementById('unsealBtn');
   const letterCard = document.querySelector('.sealed-letter-card');
-  if (waxCrest && letterCard) {
-    waxCrest.addEventListener('click', () => {
-      letterCard.classList.toggle('unsealed');
+
+  function triggerUnseal() {
+    if (!letterCard) return;
+    const isCurrentlyUnsealed = letterCard.classList.contains('is-unsealed');
+    
+    if (isCurrentlyUnsealed) {
+      letterCard.classList.remove('is-unsealed');
+      letterCard.classList.add('is-sealed');
+    } else {
+      letterCard.classList.remove('is-sealed');
+      letterCard.classList.add('is-unsealed');
       burstKeepsakeSparkles(waxCrest);
-    });
+      if (typeof playPaperRustle === 'function') {
+        playPaperRustle(1.0);
+      }
+    }
+  }
+
+  if (waxCrest) {
+    waxCrest.addEventListener('click', triggerUnseal);
     waxCrest.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        waxCrest.click();
+        triggerUnseal();
       }
+    });
+  }
+
+  if (unsealBtn) {
+    unsealBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      triggerUnseal();
     });
   }
 
