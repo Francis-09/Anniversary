@@ -84,49 +84,133 @@
   inset: 0;
   z-index: 5;
   background:
-    radial-gradient(ellipse at 50% 30%, rgba(255, 253, 248, 0.97) 0%, rgba(247, 235, 213, 0.98) 75%, rgba(237, 218, 187, 0.99) 100%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='linen'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23linen)' opacity='0.06'/%3E%3C/svg%3E");
+    radial-gradient(ellipse at 50% 0%, rgba(237,218,187,0.55) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(224,205,165,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,253,248,0.98) 0%, rgba(248,238,218,0.98) 70%, rgba(237,218,187,1) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='linen'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23linen)' opacity='0.07'/%3E%3C/svg%3E");
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem 1.5rem 2rem;
-  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.85s ease;
+  padding: 4rem 2rem 2.5rem;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.9s ease;
   pointer-events: auto;
+  overflow: hidden;
 }
 
+/* Outer double-rule gold frame */
 .letter-seal-overlay::before {
   content: '';
   position: absolute;
-  inset: 12px;
-  border: 1px dashed rgba(185, 169, 125, 0.6);
+  inset: 14px;
+  border: 1px solid rgba(200, 168, 75, 0.45);
+  pointer-events: none;
+  box-shadow: inset 0 0 0 5px rgba(200, 168, 75, 0.12);
+}
+.letter-seal-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(200, 168, 75, 0.22);
   pointer-events: none;
 }
 
+/* Envelope flap fold shadow at the top */
+.seal-flap-fold {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 110px;
+  background: linear-gradient(to bottom, rgba(190,155,80,0.13) 0%, rgba(190,155,80,0.05) 50%, transparent 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Corner flourish SVGs */
+.seal-corner {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  pointer-events: none;
+  z-index: 2;
+}
+.seal-corner--tl { top: 26px; left: 26px; }
+.seal-corner--tr { top: 26px; right: 26px; }
+.seal-corner--bl { bottom: 26px; left: 26px; }
+.seal-corner--br { bottom: 26px; right: 26px; }
+
+/* Centered content block */
 .letter-seal-prompt {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.1rem;
+  gap: 0.85rem;
   text-align: center;
   position: relative;
   z-index: 6;
+  max-width: 340px;
 }
 
+/* Botanical SVG ornament */
+.seal-botanical {
+  width: 220px;
+  height: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Eyebrow — spaced small caps */
+.seal-eyebrow {
+  font-family: var(--ff-serif);
+  font-variant-caps: small-caps;
+  font-size: 0.72rem;
+  letter-spacing: 0.38em;
+  color: var(--lavender-dark, #6d457f);
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-top: 0.3rem;
+}
+
+/* Gold horizontal rule */
+.seal-gold-rule {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(200,168,75,0.8), transparent);
+  flex-shrink: 0;
+}
+
+/* Main name in dance script */
 .seal-prompt-text {
+  font-family: var(--ff-dance);
+  font-style: normal;
+  font-size: clamp(1.5rem, 4.5vw, 2rem);
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* Date tagline */
+.seal-prompt-date {
   font-family: var(--ff-serif);
   font-style: italic;
-  font-size: 1.25rem;
+  font-size: 0.82rem;
   color: var(--faded-ink);
   letter-spacing: 0.04em;
+  opacity: 0.75;
+  margin: 0;
 }
 
+/* Hint text */
 .seal-prompt-hint {
   font-family: var(--ff-serif);
-  font-size: 0.96rem;
+  font-size: 0.78rem;
   color: var(--gold-foil);
-  letter-spacing: 0.06em;
-  opacity: 0.85;
+  letter-spacing: 0.1em;
+  opacity: 0.78;
+  margin-top: 0.4rem;
 }
 
 /* Hidden letter inner state when sealed */
