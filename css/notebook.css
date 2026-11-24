@@ -2,10 +2,9 @@
    NOTEBOOK.CSS — Sealed Love Letter & Keepsake Journal
 ═══════════════════════════════════════════════════ */
 
-.notebook-section {
+.notebook-section,
+.bouquet-page {
   position: relative;
-  min-height: 100vh;
-  padding: 5rem 1.5rem 6rem;
   background-color: var(--parchment-mid);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.055'/%3E%3C/svg%3E"),
@@ -13,7 +12,13 @@
   overflow: hidden;
 }
 
-.notebook-section::before {
+.notebook-section {
+  min-height: 100vh;
+  padding: 5rem 1.5rem calc(6rem + env(safe-area-inset-bottom, 0px));
+}
+
+.notebook-section::before,
+.bouquet-page::before {
   content: '';
   position: absolute;
   inset: 1.4rem;
@@ -167,9 +172,8 @@
   font-variant-caps: small-caps;
   font-size: 0.72rem;
   letter-spacing: 0.38em;
-  color: var(--lavender-dark, #6d457f);
+  color: var(--plum-ink);
   text-transform: uppercase;
-  opacity: 0.8;
   margin-top: 0.3rem;
 }
 
@@ -196,21 +200,36 @@
 .seal-prompt-date {
   font-family: var(--ff-serif);
   font-style: italic;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--faded-ink);
   letter-spacing: 0.04em;
-  opacity: 0.75;
   margin: 0;
 }
 
 /* Hint text */
 .seal-prompt-hint {
   font-family: var(--ff-serif);
-  font-size: 0.78rem;
-  color: var(--gold-foil);
-  letter-spacing: 0.1em;
-  opacity: 0.78;
+  font-size: 0.95rem;
+  color: var(--plum-ink);
+  letter-spacing: 0.025em;
   margin-top: 0.4rem;
+}
+
+.sealed-letter-card.is-sealed {
+  padding: 0;
+}
+
+.is-sealed .letter-seal-overlay {
+  position: relative;
+  padding: 6.2rem 2rem 2.7rem;
+}
+
+.is-sealed .letter-wax-crest {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  translate: -50% 0;
+  margin: 0;
 }
 
 /* Hidden letter inner state when sealed */
@@ -240,7 +259,7 @@
 .letter-wax-crest {
   position: relative;
   z-index: 10;
-  margin: -2.6rem auto 1rem;
+  margin: 0 auto 1rem;
   width: 66px;
   height: 66px;
   border-radius: 50%;
@@ -610,7 +629,8 @@
 .entry-name {
   font-family: var(--ff-dance);
   font-size: 1.3rem;
-  color: var(--lavender-dark);
+  color: var(--plum-ink);
+  overflow-wrap: anywhere;
   font-weight: 700;
   margin-bottom: 0.35rem;
 }
@@ -625,26 +645,175 @@
   word-break: break-word;
 }
 
-/* ── Footer Signature ── */
-.notebook-section::after {
-  content: 'Maria & Francis · Since December 1, 2023 · Forever & Always';
-  display: block;
+/* ── Closing signature and bouquet ── */
+.notebook-ending {
+  position: relative;
+  z-index: 2;
+  margin-top: 4.2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(168, 134, 62, 0.32);
+}
+
+.notebook-signature {
   text-align: center;
   font-family: var(--ff-serif);
   font-style: italic;
   font-size: 0.92rem;
   letter-spacing: 0.14em;
   color: var(--faded-ink);
-  margin-top: 4.2rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(168, 134, 62, 0.32);
+}
+
+.bouquet-page {
+  display: grid;
+  place-items: center;
+  container-type: size;
+  height: 100vh;
+  height: 100dvh;
+  padding: max(1.5rem, env(safe-area-inset-top)) max(1.5rem, env(safe-area-inset-right))
+           calc(4.75rem + env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left));
+}
+
+.bouquet-display {
   position: relative;
   z-index: 2;
+  /* Fit the SVG viewBox inside the page's padded content area. */
+  width: min(100%, calc(100cqh * 316 / 416));
+}
+
+.keepsake-bouquet { display: block; width: 100%; height: auto; }
+
+.bouquet-trigger {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  color: var(--plum-ink);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.bouquet-trigger svg {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: .65;
+}
+
+.keepsake-bouquet[data-reveal] + .bouquet-trigger {
+  visibility: hidden;
+}
+
+.bouquet-viewer {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(32rem, calc(100% - 1.5rem));
+  padding: 1rem;
+  border: 1px solid #bba278;
+  border-radius: 5px;
+  background: radial-gradient(ellipse at 48% 36%, #fffaf3, var(--parchment-mid));
+  color: var(--ink);
+  box-shadow: inset 0 0 0 5px #faf2e2, inset 0 0 0 6px #dac6a3, 0 18px 70px #28152155;
+}
+
+.bouquet-viewer::backdrop { background: rgb(38 22 32 / .76); }
+html:has(.bouquet-viewer[open]) { overflow: hidden; }
+
+.bouquet-detail {
+  display: block;
+  width: 100%;
+  height: min(64dvh, 34rem);
+  border-radius: 2px;
+  user-select: none;
+}
+
+.bouquet-motion, .bouquet-close {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid #bfa77d;
+  background: var(--parchment-light);
+  color: var(--ink);
+  border-radius: 24px;
+  font-size: 1.12rem;
+}
+.bouquet-motion {
+  display: block;
+  margin: .7rem auto .25rem;
+  padding: 0 .85rem;
+  font-size: 1rem;
+}
+.bouquet-close { position: absolute; z-index: 1; top: .8rem; right: .8rem; }
+@media (prefers-reduced-motion: reduce) { .bouquet-motion { display: none; } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .keepsake-bouquet:not([data-reveal]) #bouquetArrangement, .bouquet-detail > use {
+    transform-origin: 179px 269px;
+    animation: bouquet-sway 9s ease-in-out infinite;
+    animation-play-state: var(--bouquet-play-state, running);
+  }
+  .keepsake-bouquet:not([data-reveal]) .bouquet-bloom {
+    animation: rose-nod 4s ease-in-out infinite alternate;
+    animation-play-state: var(--bouquet-play-state, running);
+  }
+  .bouquet-display:has(.bouquet-trigger[hidden]) :is(#bouquetArrangement, .bouquet-bloom) {
+    animation: none;
+  }
+  .bouquet-still { --bouquet-play-state: paused; }
+  .keepsake-bouquet[data-reveal="waiting"] {
+    opacity: 0;
+  }
+
+  .keepsake-bouquet[data-reveal="opening"] .bouquet-stems path {
+    stroke-dasharray: 1;
+    animation: bouquet-draw 0.9s ease-in-out backwards;
+  }
+
+  .keepsake-bouquet[data-reveal="opening"] :is(.bouquet-leaf, .bouquet-ribbon) {
+    animation: bouquet-unfold 0.6s ease-out 0.9s backwards;
+  }
+
+  .keepsake-bouquet[data-reveal="opening"] :is(.bouquet-paper, .bouquet-greenery) {
+    animation: bouquet-tissue .65s ease-out .9s backwards;
+  }
+
+  .keepsake-bouquet[data-reveal="opening"] .bouquet-bloom {
+    animation: bouquet-open 1.1s cubic-bezier(.22,.65,.3,1) 1.5s backwards;
+  }
+}
+
+@keyframes bouquet-sway {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(1.6deg); }
+  75% { transform: rotate(-1.6deg); }
+}
+@keyframes rose-nod {
+  from { transform: rotate(-1.5deg); }
+  to { transform: rotate(2deg); }
+}
+@keyframes bouquet-tissue {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bouquet-draw {
+  from { stroke-dashoffset: 1; opacity: 0; }
+  12% { opacity: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes bouquet-unfold {
+  from { transform: rotate(12deg) scale(.12,.7); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes bouquet-open {
+  from { transform: rotate(-8deg) scale(.18,.48); opacity: 0; }
+  to { transform: none; opacity: 1; }
 }
 
 /* ── Responsive ── */
 @media (max-width: 600px) {
-  .notebook-section::before {
+  .notebook-section::before,
+  .bouquet-page::before {
     inset: 0.85rem;
   }
   .sealed-letter-card {

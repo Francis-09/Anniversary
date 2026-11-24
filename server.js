@@ -2,7 +2,7 @@ const http = require('http');
 const fs   = require('fs');
 const path = require('path');
 
-const ROOT = 'c:/Users/Maria/OneDrive/Desktop/Anniversary';
+const ROOT = __dirname;
 const PORT = 3000;
 
 const MIME = {
@@ -22,9 +22,20 @@ const MIME = {
 
 http.createServer((req, res) => {
   // Decode URL components so filenames with spaces like "1st day.jpg" work cleanly
-  const cleanUrl = decodeURIComponent(req.url.split('?')[0]);
+  let cleanUrl;
+  try {
+    cleanUrl = decodeURIComponent(req.url.split('?')[0]);
+  } catch {
+    res.writeHead(400).end();
+    return;
+  }
   const urlPath  = cleanUrl === '/' ? '/index.html' : cleanUrl;
-  const filePath = path.join(ROOT, urlPath);
+  const filePath = path.resolve(ROOT, '.' + urlPath);
+  const relative = path.relative(ROOT, filePath).split(path.sep);
+  if (relative.join('/') !== 'index.html' && !['assets', 'css', 'js'].includes(relative[0])) {
+    res.writeHead(404).end();
+    return;
+  }
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
@@ -39,9 +50,17 @@ http.createServer((req, res) => {
     // Support Audio Range Requests for smooth seeking / streaming
     const range = req.headers.range;
     if (range && ext === 'mp3') {
-      const parts = range.replace(/bytes=/, '').split('-');
-      const start = parseInt(parts[0], 10);
-      const end   = parts[1] ? parseInt(parts[1], 10) : stats.size - 1;
+      const parts = /^bytes=(\d*)-(\d*)$/.exec(range);
+      if (!parts || (!parts[1] && !parts[2])) {
+        res.writeHead(416, { 'Content-Range': `bytes */${stats.size}` }).end();
+        return;
+      }
+      const start = parts[1] ? Number(parts[1]) : Math.max(0, stats.size - Number(parts[2]));
+      const end = parts[1] && parts[2] ? Math.min(Number(parts[2]), stats.size - 1) : stats.size - 1;
+      if (start > end) {
+        res.writeHead(416, { 'Content-Range': `bytes */${stats.size}` }).end();
+        return;
+      }
       const chunkSize = (end - start) + 1;
       const file = fs.createReadStream(filePath, { start, end });
       res.writeHead(206, {
@@ -62,6 +81,6 @@ http.createServer((req, res) => {
     fs.createReadStream(filePath).pipe(res);
   });
 
-}).listen(PORT, () => {
+}).listen(PORT, '127.0.0.1', () => {
   console.log(`\n💜 Anniversary site running smoothly at http://localhost:${PORT}\n`);
 });

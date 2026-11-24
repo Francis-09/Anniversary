@@ -17,36 +17,23 @@
   const LEGACY_KEY  = 'mf_anniversary_notes_v2';
   const MAX_CHARS   = 500;
 
-  // ── Keepsake Notes between Francis & Maria ──
-  const DEFAULT_ENTRIES = [
-    {
-      id: 'default-1',
-      name: 'Francis',
-      message: 'December 1, 2023 was the day my favorite story began. Thank you for every smile, every quiet evening, and every burst of laughter. Forever choosing you, my love.',
-      timestamp: 1701460800000
-    },
-    {
-      id: 'default-2',
-      name: 'Maria',
-      message: 'To our first beach trip, our fireworks nights, endless coffee runs, and all the quiet moments in between. You are my safe place and my favorite adventure.',
-      timestamp: 1701513000000
-    }
-  ];
-
   // ── Load from localStorage ──
   function loadEntries() {
+    let entries = [];
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        return JSON.parse(stored);
-      }
+      if (!stored) return entries;
 
-      const initial = [...DEFAULT_ENTRIES];
-      saveEntries(initial);
-      return initial;
+      const saved = JSON.parse(stored);
+      // Older notebooks include two prewritten notes with reserved IDs.
+      entries = saved.filter(entry => entry.id !== 'default-1' && entry.id !== 'default-2');
+      if (entries.length !== saved.length) {
+        saveEntries(entries);
+      }
     } catch {
-      return DEFAULT_ENTRIES;
+      // Storage can be unavailable when the site is opened as a local file.
     }
+    return entries;
   }
 
   // ── Save to localStorage ──
@@ -56,6 +43,7 @@
 
   // ── Subtle champagne-gold & lavender sparkle burst on save or unseal ──
   function burstKeepsakeSparkles(originEl) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const target = originEl || saveBtn;
     const rect = target.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
@@ -156,7 +144,13 @@
       message,
       timestamp: Date.now()
     });
-    saveEntries(entries);
+    try {
+      saveEntries(entries);
+    } catch {
+      textarea.setCustomValidity('Your browser could not save this note. Your draft is still here.');
+      textarea.reportValidity();
+      return;
+    }
 
     // Clear inputs
     nameInput.value = '';
@@ -180,7 +174,7 @@
     renderEntries();
     setTimeout(() => {
       const first = entriesEl.firstElementChild;
-      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (first) first.scrollIntoView({ block: 'nearest' });
     }, 120);
   }
 
@@ -195,17 +189,17 @@
 
   const waxCrest   = document.getElementById('letterWaxCrest');
   const letterCard = document.querySelector('.sealed-letter-card');
+  const letterText = document.getElementById('letterInnerFrame');
 
   function triggerUnseal() {
-    if (!letterCard) return;
-    const isCurrentlyUnsealed = letterCard.classList.contains('is-unsealed');
-    
-    if (isCurrentlyUnsealed) {
-      letterCard.classList.remove('is-unsealed');
-      letterCard.classList.add('is-sealed');
-    } else {
-      letterCard.classList.remove('is-sealed');
-      letterCard.classList.add('is-unsealed');
+    if (!letterCard || !letterText) return;
+    const opened = letterCard.classList.toggle('is-unsealed');
+    letterCard.classList.toggle('is-sealed', !opened);
+    letterText.hidden = !opened;
+    waxCrest.setAttribute('aria-expanded', String(opened));
+    waxCrest.title = opened ? 'Reseal love letter' : 'Unseal love letter';
+    waxCrest.setAttribute('aria-label', waxCrest.title);
+    if (opened) {
       burstKeepsakeSparkles(waxCrest);
       if (typeof playPaperRustle === 'function') {
         playPaperRustle(1.0);
@@ -215,15 +209,10 @@
 
   if (waxCrest) {
     waxCrest.addEventListener('click', triggerUnseal);
-    waxCrest.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        triggerUnseal();
-      }
-    });
   }
 
   textarea.addEventListener('input', () => {
+    textarea.setCustomValidity('');
     if (textarea.value.length > MAX_CHARS) {
       textarea.value = textarea.value.slice(0, MAX_CHARS);
     }
@@ -239,5 +228,63 @@
 
   // ── Init ──
   renderEntries();
+  initBouquet();
+  initBouquetViewer();
+
+  function initBouquet() {
+    const bouquet = document.querySelector('.keepsake-bouquet');
+    if (!bouquet || !window.IntersectionObserver || !window.matchMedia ||
+        !window.CSS?.supports('animation-name', 'bouquet-open')) return;
+
+    const visitKey = 'mf_rose_bouquet_seen';
+    try {
+      if (sessionStorage.getItem(visitKey)) return;
+    } catch {
+      // The observer still limits the reveal to once on this page.
+    }
+
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!motion.matches) bouquet.dataset.reveal = 'waiting';
+    bouquet.addEventListener('animationend', function finishReveal(event) {
+      if (event.animationName !== 'bouquet-open') return;
+      delete bouquet.dataset.reveal;
+      bouquet.removeEventListener('animationend', finishReveal);
+    });
+    motion.addEventListener?.('change', () => {
+      delete bouquet.dataset.reveal;
+    }, { once: true });
+
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.intersectionRatio >= 0.5)) return;
+      observer.disconnect();
+      if (bouquet.dataset.reveal === 'waiting' && !motion.matches) {
+        bouquet.dataset.reveal = 'opening';
+      }
+      try {
+        sessionStorage.setItem(visitKey, '1');
+      } catch {
+        // Other visits can replay the reveal when storage is unavailable.
+      }
+    }, { threshold: 0.5 });
+    observer.observe(bouquet);
+  }
+
+  function initBouquetViewer() {
+    const viewer = document.getElementById('bouquetViewer');
+    const trigger = document.querySelector('.bouquet-trigger');
+    if (!trigger || !viewer?.showModal) return;
+
+    const motionBtn = viewer.querySelector('.bouquet-motion');
+
+    trigger.hidden = false;
+    trigger.addEventListener('click', () => viewer.showModal());
+    motionBtn.addEventListener('click', () => {
+      const paused = document.documentElement.classList.toggle('bouquet-still');
+      motionBtn.textContent = paused ? 'Resume sway' : 'Pause sway';
+    });
+
+    viewer.querySelector('.bouquet-close').addEventListener('click', () => viewer.close());
+    viewer.addEventListener('close', () => trigger.focus({ preventScroll: true }));
+  }
 
 })();

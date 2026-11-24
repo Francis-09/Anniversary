@@ -88,9 +88,6 @@
 .polaroid-wrap {
   display: flex;
   justify-content: center;
-  opacity: 0;
-  transform: translateY(40px);
-  will-change: transform, opacity;
 }
 
 .polaroid-wrap--left  { justify-content: flex-end;  padding-right: 0.75rem; }
@@ -101,7 +98,7 @@
   position: relative;
   background: #fdfaf2;
   border: 1px solid rgba(185, 169, 125, 0.65);
-  padding: 14px 14px 44px 14px;
+  padding: 14px;
   box-shadow:
     0 14px 32px rgba(44, 36, 22, 0.14),
     0 3px 8px rgba(44, 36, 22, 0.08),
@@ -115,7 +112,7 @@
 .archival-print::after {
   content: '';
   position: absolute;
-  inset: 7px 7px 38px 7px;
+  inset: 7px;
   border: 1px solid rgba(212, 175, 55, 0.28);
   pointer-events: none;
 }
@@ -138,11 +135,12 @@
 }
 .print-corner--tl { top: 8px; left: 8px; border-width: 1.8px 0 0 1.8px; }
 .print-corner--tr { top: 8px; right: 8px; border-width: 1.8px 1.8px 0 0; }
-.print-corner--bl { bottom: 39px; left: 8px; border-width: 0 0 1.8px 1.8px; }
-.print-corner--br { bottom: 39px; right: 8px; border-width: 0 1.8px 1.8px 0; }
+.print-corner--bl { bottom: 8px; left: 8px; border-width: 0 0 1.8px 1.8px; }
+.print-corner--br { bottom: 8px; right: 8px; border-width: 0 1.8px 1.8px 0; }
 
 /* Print photo with Museum-grade Double Matting & 45° Gilded Bevel */
 .polaroid-img-wrap {
+  display: block;
   width: 100%;
   overflow: hidden;
   aspect-ratio: 1 / 1;
@@ -169,21 +167,6 @@
   transform: scale(1.03);
 }
 
-/* Serif italic print caption */
-.polaroid-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-family: var(--ff-serif);
-  font-style: italic;
-  font-size: 1.05rem;
-  color: var(--ink-soft);
-  padding: 7px 10px 10px;
-  line-height: 1.25;
-}
-
 /* ── Gilded Miniature Triptych ── */
 .archival-trio {
   grid-column: 1 / -1;
@@ -191,9 +174,6 @@
   justify-content: center;
   align-items: center;
   gap: 1.15rem;
-  opacity: 0;
-  transform: translateY(30px);
-  will-change: transform, opacity;
   margin: 0.65rem 0;
 }
 
@@ -234,9 +214,6 @@
 /* ── Gold-Foil Epigraph Quotes ── */
 .epigraph-quote {
   grid-column: 1 / -1;
-  opacity: 0;
-  transform: translateY(20px);
-  will-change: transform, opacity;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -280,9 +257,6 @@
   grid-column: 1 / -1;
   display: flex;
   justify-content: center;
-  opacity: 0;
-  transform: scale(0.9);
-  will-change: transform, opacity;
   margin: 0.25rem 0;
 }
 
@@ -298,7 +272,6 @@
   justify-content: center;
   gap: 1rem;
   margin-top: 3.6rem;
-  opacity: 0;
 }
 
 .footer-line {
@@ -350,19 +323,20 @@
 .lightbox-modal {
   position: fixed;
   inset: 0;
-  z-index: 2000;
-  display: flex;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  border: 0;
+  background: transparent;
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
-.lightbox-modal.active {
-  opacity: 1;
-  visibility: visible;
+.lightbox-modal[open] {
+  display: flex;
 }
 
 .lightbox-backdrop {
@@ -386,21 +360,15 @@
     inset 0 0 0 3px rgba(180, 142, 54, 0.22);
   max-width: 530px;
   width: 100%;
-  transform: scale(0.94);
-  transition: transform 0.38s var(--transition-spring);
   text-align: center;
-}
-
-.lightbox-modal.active .lightbox-card {
-  transform: scale(1);
 }
 
 .lightbox-close {
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(250, 244, 230, 0.92);
   border: 1px solid rgba(168, 134, 62, 0.45);
@@ -446,18 +414,9 @@
   border-top: 1px solid rgba(185, 169, 125, 0.35);
 }
 
-.lightbox-caption {
-  font-family: var(--ff-serif);
-  font-style: italic;
-  font-size: clamp(1.15rem, 3.4vw, 1.42rem);
-  color: var(--ink);
-  font-weight: 500;
-  flex: 1;
-}
-
 .lightbox-nav-btn {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;

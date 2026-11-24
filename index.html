@@ -11,9 +11,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet" />
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/main.css" />
@@ -28,104 +25,58 @@
        SECTION 1: ANTIQUE HARDCOVER MEMORY BOOK
   ═══════════════════════════════════════════ -->
   <section id="slideshow-section" class="book-section visible">
-    <!-- Structured chapter data for the 12 book spreads -->
-    <div id="bookChaptersData" style="display: none;" aria-hidden="true">
-      <article class="book-chapter-item"
-        data-img="assets/images/1st day.jpg"
-        data-alt="Our first day"
-        data-numeral="I"
+    <template id="bookChaptersData">
+      <article class="book-chapter-item" data-numeral="I"
         data-subtitle="The Spark"
         data-title="The beginning of us"
-        data-quote="Every great love story has a first chapter."></article>
+        data-quote="Every great love story has a first chapter.">
+        <img src="assets/images/1st day.jpg" alt="Maria and Francis together at the outdoor concert" />
+      </article>
 
-      <article class="book-chapter-item"
-        data-img="assets/images/1st dagat.jpg"
-        data-alt="Our first beach together"
-        data-numeral="II"
-        data-subtitle="Saltwater &amp; Sun"
-        data-title="Our first beach together"
-        data-quote="Where the waves are wild and so is my love for you."></article>
+      <article class="book-chapter-item" data-numeral="II"
+        data-subtitle="Star Lanterns"
+        data-title="Under the stars with you"
+        data-quote="My heart lights up the same way each time I see you.">
+        <img src="assets/images/1st simba.jpg" alt="Maria and Francis beneath glowing star lanterns" />
+      </article>
 
-      <article class="book-chapter-item"
-        data-img="assets/images/1st museum.png"
-        data-alt="Museum afternoon"
-        data-numeral="III"
+      <article class="book-chapter-item" data-numeral="III"
         data-subtitle="Whispers in the Gallery"
         data-title="Art dates &amp; holding hands"
-        data-quote="You are my favorite work of art."></article>
+        data-quote="You are my favorite work of art.">
+        <img src="assets/images/1st museum.png" alt="Maria and Francis in the museum hall" />
+      </article>
 
-      <article class="book-chapter-item"
-        data-img="assets/images/1st fine dining.jpg"
-        data-alt="Candlelit dinner"
-        data-numeral="IV"
+      <article class="book-chapter-item" data-numeral="IV"
+        data-subtitle="Little Hearts"
+        data-title="A handful of flowers"
+        data-quote="Love finds its way into every corner of our life.">
+        <img src="assets/images/1.jpg" alt="Maria and Francis making hand hearts beside a bouquet" />
+      </article>
+
+      <article class="book-chapter-item" data-numeral="V"
         data-subtitle="Candlelight"
         data-title="You make every meal a celebration"
-        data-quote="The best table is wherever you're sitting."></article>
+        data-quote="The best table is wherever you're sitting.">
+        <img src="assets/images/1st fine dining.jpg" alt="Maria at the restaurant table" />
+        <img src="assets/images/cake-and-roses.png" alt="Cake, roses, two drinks, and photo strips" />
+        <img src="assets/images/francis-at-dinner.png" alt="Francis at the restaurant table" />
+      </article>
 
-      <article class="book-chapter-item"
-        data-img="assets/images/1st fireworks date.jpg"
-        data-alt="First fireworks evening"
-        data-numeral="V"
-        data-subtitle="Sparks in the Dark"
-        data-title="Fireworks, every single time"
-        data-quote="My heart lights up the same way each time I see you."></article>
-
-      <article class="book-chapter-item"
-        data-img="assets/images/1st simba.jpg"
-        data-alt="Simba together with us"
-        data-numeral="VI"
-        data-subtitle="Little Paws"
-        data-title="Even Simba ships us"
-        data-quote="Love finds its way into every corner of our life."></article>
-
-      <article class="book-chapter-item"
-        data-img="assets/images/sunset.jpg"
-        data-alt="Golden sunset"
-        data-numeral="VII"
-        data-subtitle="Dusk &amp; Dawn"
-        data-title="Golden hour with my golden person"
-        data-quote="Every sunset I want to share with you."></article>
-
-      <article class="book-chapter-item"
-        data-img="assets/images/sb date.jpg"
-        data-alt="Starbucks coffee date"
-        data-numeral="VIII"
-        data-subtitle="Warm Sips &amp; Laughter"
-        data-title="Starbucks runs &amp; forever talks"
-        data-quote="My favorite place is anywhere next to you."></article>
-
-      <article class="book-chapter-item"
-        data-img="assets/images/zus date.jpg"
-        data-alt="Date night"
-        data-numeral="IX"
-        data-subtitle="Simple Nights"
-        data-title="Date nights are our love language"
-        data-quote="Time spent with you is never wasted."></article>
-
-      <article class="book-chapter-item"
-        data-img="assets/images/2nd fireworks.jpg"
-        data-alt="Second fireworks evening"
-        data-numeral="X"
-        data-subtitle="Brighter Every Year"
-        data-title="More fireworks, more memories"
-        data-quote="Every year just keeps getting brighter."></article>
-
-      <article class="book-chapter-item"
-        data-img="assets/images/samg.jpg"
-        data-alt="Adventures together"
-        data-numeral="XI"
-        data-subtitle="Sizzles &amp; Smiles"
-        data-title="Adventures together, always"
-        data-quote="Life is better when we're exploring it together."></article>
-
-      <article class="book-chapter-item"
-        data-img="assets/images/fam bonding.jpg"
-        data-alt="Family bonding"
-        data-numeral="XII"
+      <article class="book-chapter-item" data-numeral="VI"
         data-subtitle="The Heart of Everything"
-        data-title="Family makes everything beautiful"
-        data-quote="The ones we love are the reason for everything."></article>
-    </div>
+        data-title="Together at church"
+        data-quote="The ones we love are the reason for everything.">
+        <img src="assets/images/church-portrait.png" alt="Maria and Francis standing together with a baby in church" />
+      </article>
+
+      <article class="book-chapter-item" data-numeral="VII"
+        data-subtitle="The Photo Booth"
+        data-title="Three frames of us"
+        data-quote="My favorite place is anywhere next to you.">
+        <img src="assets/images/red-curtain-photo-strip.png" alt="Three photo booth portraits of Maria and Francis against a red curtain" />
+      </article>
+    </template>
 
     <!-- Pinned Reading Desk Stage -->
     <div class="book-stage-sticky" id="bookStageSticky">
@@ -188,8 +139,9 @@
       <nav class="book-desk-dock" aria-label="Book page navigation">
         <div class="book-dock-pill">
           <button type="button" class="dock-step-btn" id="dockPrevBtn" aria-label="Previous page" title="Previous page">❮</button>
-          <span class="dock-chapter-readout" id="bookReadout">Cover</span>
+          <span class="dock-chapter-readout" id="bookReadout" aria-live="polite">Cover</span>
           <button type="button" class="dock-step-btn" id="dockNextBtn" aria-label="Next page" title="Next page">❯</button>
+          <a class="book-skip-link" href="#hero-section">Scrapbook</a>
         </div>
       </nav>
     </div>
@@ -199,7 +151,7 @@
   <!-- ═══════════════════════════════════════════
        SECTION 2: HEIRLOOM KEEPSAKE PLAQUE & LOVE COUNTER
   ═══════════════════════════════════════════ -->
-  <section id="hero-section" class="hero-section">
+  <section id="hero-section" class="hero-section" tabindex="-1">
 
     <!-- Delicate Botanical Corner Florals -->
     <div class="deco deco--flower deco--flower-l" aria-hidden="true">
@@ -300,29 +252,27 @@
 
       <!-- Row 1 -->
       <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-2.2">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/0.jpg" alt="Us, always" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">us, always</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <div class="polaroid-wrap polaroid-wrap--right" data-rotate="1.8">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/0.1.jpg" alt="My favorite smile" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">my favorite smile</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <!-- Gold-Foil Epigraph 1 -->
@@ -333,69 +283,65 @@
 
       <!-- Row 2 -->
       <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-1.6">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/1.jpg" alt="This moment" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">this moment</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <div class="polaroid-wrap polaroid-wrap--right" data-rotate="2.6">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/1.1.jpg" alt="Soft and golden" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">soft and golden</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <!-- Gilded Miniature Triptych (preserving all 3 intimate snapshots without black filmstrip sprockets) -->
       <div class="archival-trio" aria-label="Three miniature keepsake frames">
-        <figure class="trio-frame" data-caption="petals &amp; quiet beauty">
+        <button type="button" class="trio-frame" aria-haspopup="dialog">
           <img src="assets/images/flower.jpg" alt="Flowers for you" />
-        </figure>
-        <figure class="trio-frame" data-caption="little paws by our side">
+        </button>
+        <button type="button" class="trio-frame" aria-haspopup="dialog">
           <img src="assets/images/simba 2.jpg" alt="Sweet Simba" />
-        </figure>
-        <figure class="trio-frame" data-caption="amber skies with you">
+        </button>
+        <button type="button" class="trio-frame" aria-haspopup="dialog">
           <img src="assets/images/sunset 2.jpg" alt="Warm sunset sky" />
-        </figure>
+        </button>
       </div>
 
       <!-- Row 3 -->
       <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-2.5">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/museum date.jpg" alt="Art and us" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">art &amp; us</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <div class="polaroid-wrap polaroid-wrap--right" data-rotate="1.4">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/random sb date.jpg" alt="Coffee and conversations" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">coffee &amp; conversations</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <!-- Fine Botanical Heart Flourish -->
@@ -409,29 +355,27 @@
 
       <!-- Row 4 -->
       <div class="polaroid-wrap polaroid-wrap--left" data-rotate="-1.2">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/fireworks 2.jpg" alt="Lighting up the sky" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">lighting up the sky</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <div class="polaroid-wrap polaroid-wrap--right" data-rotate="2.2">
-        <article class="polaroid archival-print">
+        <button type="button" class="polaroid archival-print" aria-haspopup="dialog">
           <span class="print-corner print-corner--tl" aria-hidden="true"></span>
           <span class="print-corner print-corner--tr" aria-hidden="true"></span>
           <span class="print-corner print-corner--bl" aria-hidden="true"></span>
           <span class="print-corner print-corner--br" aria-hidden="true"></span>
-          <div class="polaroid-img-wrap">
+          <span class="polaroid-img-wrap">
             <img src="assets/images/2.jpg" alt="Just the two of us" class="polaroid-img" />
-          </div>
-          <p class="polaroid-caption">just the two of us</p>
-        </article>
+          </span>
+        </button>
       </div>
 
       <!-- Gold-Foil Epigraph 2 -->
@@ -464,10 +408,10 @@
 
     <!-- Wax-Sealed Dedicated Love Letter -->
     <article class="sealed-letter-card is-sealed" aria-label="Love letter from Francis to Maria">
-      <div class="letter-wax-crest" id="letterWaxCrest" role="button" tabindex="0" aria-label="Unseal love letter" title="Click to unseal love letter">
+      <button type="button" class="letter-wax-crest" id="letterWaxCrest" aria-controls="letterInnerFrame" aria-expanded="false" aria-label="Unseal love letter" title="Click to unseal love letter">
         <span class="letter-crest-monogram">M&amp;F</span>
         <span class="letter-crest-heart">♥&#xFE0E;</span>
-      </div>
+      </button>
 
       <!-- Envelope / Wax-Sealed Flap Overlay -->
       <div class="letter-seal-overlay" id="letterSealOverlay">
@@ -536,7 +480,7 @@
         </svg>
       </div>
 
-      <div class="letter-inner-frame" id="letterInnerFrame">
+      <div class="letter-inner-frame" id="letterInnerFrame" hidden>
         <p class="letter-salutation">My dearest Maria,</p>
         <div class="letter-body">
           <p>
@@ -597,43 +541,196 @@
       </div>
     </div>
 
+    <footer class="notebook-ending">
+      <p class="notebook-signature">Maria &amp; Francis · Since December 1, 2023 · Forever &amp; Always</p>
+    </footer>
+  </section>
+
+  <section class="bouquet-page" id="bouquet" aria-labelledby="bouquetTitle">
+      <div class="bouquet-display">
+        <svg class="keepsake-bouquet" viewBox="22 0 316 416" role="img" aria-labelledby="bouquetTitle">
+          <title id="bouquetTitle">A bouquet of pink China roses for Maria</title>
+          <defs>
+            <linearGradient id="roseSilk" x1=".17" y1="0" x2=".82" y2="1"><stop offset="0" stop-color="#fff0e5"/><stop offset="0.25" stop-color="#f9b3c4"/><stop offset="0.6" stop-color="#ec85a4"/><stop offset="1" stop-color="#b64d78"/></linearGradient>
+            <linearGradient id="roseFold" x1=".17" y1="0" x2=".82" y2="1"><stop offset="0" stop-color="#fff0de"/><stop offset="0.31" stop-color="#f7b4c0"/><stop offset="0.68" stop-color="#e98aa1"/><stop offset="1" stop-color="#cc6185"/></linearGradient>
+            <linearGradient id="roseHeart" x1=".17" y1="0" x2=".82" y2="1"><stop offset="0" stop-color="#fac4c9"/><stop offset="0.55" stop-color="#e77599"/><stop offset="1" stop-color="#a64070"/></linearGradient>
+            <linearGradient id="roseLeaf" x1=".17" y1="0" x2=".82" y2="1"><stop offset="0" stop-color="#cad0aa"/><stop offset="0.5" stop-color="#93a588"/><stop offset="1" stop-color="#657b63"/></linearGradient>
+            <linearGradient id="rosePaper" x1=".17" y1="0" x2=".82" y2="1"><stop offset="0" stop-color="#fae5ed"/><stop offset="0.44" stop-color="#f3ccdd"/><stop offset="0.81" stop-color="#e4aec8"/><stop offset="1" stop-color="#cf91b1"/></linearGradient>
+            <linearGradient id="roseTissue" x1=".17" y1="0" x2=".82" y2="1"><stop offset="0" stop-color="#fff4ef"/><stop offset="0.5" stop-color="#f8e7e7"/><stop offset="1" stop-color="#e2cbd4"/></linearGradient>
+            <linearGradient id="roseRibbon" x1=".17" y1="0" x2=".82" y2="1"><stop offset="0" stop-color="#fff5db"/><stop offset="0.26" stop-color="#e9d9b8"/><stop offset="0.46" stop-color="#fff2d6"/><stop offset="0.79" stop-color="#ecdfc7"/><stop offset="1" stop-color="#c3a98d"/></linearGradient>
+            <g id="roseCorolla" stroke-linejoin="round" stroke-width=".48" stroke="#b96985">
+              <path fill="url(#roseSilk)" d="M-1 23c-6 2-11-1-14-5-5-1-9-5-8-11-4-5-2-11 1-15 0-7 4-12 11-13 5-5 12-5 18-3 7-1 13 3 15 9 6 4 7 11 4 17 2 7-2 13-8 15-4 6-12 8-19 6Z"/>
+              <path fill="url(#roseFold)" d="M-20-6c-3-7 6-17 15-18 7-2 13 1 18 6-8-2-13 4-18 5-7 2-10 3-15 7Z"/>
+              <path fill="url(#roseHeart)" d="M7-13c9-6 17 0 18 8 2 8-3 16-9 19 1-8-2-11-5-16-2-4-5-7-4-11Z"/>
+              <path fill="url(#roseFold)" d="M-23-4c4 1 9 3 11 8 3 6 10 9 14 15-7 5-16 0-21-5-4-5-6-11-4-18Z"/>
+              <path fill="url(#roseSilk)" d="M-14 14c6 5 12 5 18 1 6-4 10-4 16-6-1 9-7 14-15 15-8 1-14-2-19-10Z"/>
+              <path fill="url(#roseFold)" d="M-14-5c-2-6 4-11 11-12 7-2 13 1 17 5-6 0-8 5-13 6-6 2-9-2-15 1Z"/>
+              <path fill="url(#roseSilk)" d="M7-8c8-4 14 5 11 12-1 5-6 8-10 10 1-7-4-9-5-14 0-3 1-6 4-8Z"/>
+              <path fill="url(#roseFold)" d="M-13-7c5-1 9 4 10 8 2 4 7 6 11 8-5 6-13 4-18 0-5-4-7-10-3-16Z"/>
+              <path fill="url(#roseHeart)" d="M-9-2q1-6 6-9 5 1 9 0 4 3 5 8l-3 6-9 4-6-3Z"/>
+              <path fill="url(#roseFold)" d="M-8-3q-1-5 5-7 5 2 8 0l3 4q-6-2-9 1l-5 4Z"/>
+              <path fill="url(#roseSilk)" d="M7-7q5 4 1 10l-8 3-5-3q6-1 9-3 4-2 3-7Z"/>
+              <path fill="url(#roseFold)" d="M-7-4q4-1 7 2l4 1q-3 5-7 4-4-1-4-7Z"/>
+              <path fill="url(#roseHeart)" d="M-3-5q3-4 7-1l2 3q-4 1-6 0l-2-2Z"/>
+              <path fill="none" stroke="#ad5877" stroke-width=".58" d="M1-4q2-1 3 1l-2 1M-17 8q1 3 5 5m26-12q1-4-1-8"/>
+              <path fill="none" stroke="#fbd3d5" stroke-width=".55" d="M-21-8q4-10 14-12m20 6q6-1 9 5M-18 13q7 5 13 5m9-4q5-3 11-4m-26-15q1-6 7-7"/>
+            </g>
+            <g id="roseBud" stroke-width=".65" stroke="#b77587" stroke-linejoin="round">
+              <path fill="url(#roseLeaf)" stroke="#71836a" d="M0 23Q-16 20-21 4l7 5-4-17L-3 3 15-8l-3 16 8-6Q15 18 0 23Z"/>
+              <path fill="url(#roseFold)" d="M-16-9c-3-7 3-11 9-9 5-4 10-1 13-1 6-2 10 4 10 10 3 12-4 24-15 28-10-3-16-14-17-28Z"/>
+              <path fill="url(#roseSilk)" d="M-13-12c4-8 12-8 18-4 4-1 9 2 10 5-8-1-11 8-17 9-6 1-10-4-11-10Z"/>
+              <path fill="url(#roseHeart)" d="M-8-12q6-8 14-1-7-1-9 5Z"/>
+              <path fill="url(#roseFold)" d="M-15-7c5-1 10 1 14 4 7 4 10 0 17-4-1 14-8 23-15 26-10-5-15-12-16-26Z"/>
+              <path fill="none" stroke="#fff0df" d="M-13-7q6 0 12 5t12 0"/>
+            </g>
+            <g id="roseFoliage">
+              <path fill="url(#roseLeaf)" stroke="#71836c" stroke-width=".7" d="M0 0C-10-2-21-7-29-17l1-2-5-9 9 3 3 0C-9-22-3-13 0 0Z"/>
+              <path fill="none" stroke="#e0cc9f" stroke-width=".7" d="M0 0Q-15-15-30-25m16 13-7-1m1-6 0-3"/>
+            </g>
+            <g id="fillerFloret">
+              <path fill="#fff9e9" stroke="#c5b99f" stroke-width=".45" d="M0-2c2-4 5-1 4 1 4 1 3 4 0 4-1 4-4 3-5 1-3 2-6-1-4-3-2-3 0-6 5-3Z"/>
+              <circle cx=".3" cy="1" r="1.1" fill="#cfac69"/>
+            </g>
+            <g id="roseFiller">
+              <path fill="none" stroke="#8c9b7a" stroke-width="1.05" d="M0 0Q2-12-1-31m2 17-11-9m11 2 10-11m-12 4-6-11m8 25 11-4"/>
+              <use href="#fillerFloret" transform="translate(-10 -23) rotate(-12)"/><use href="#fillerFloret" transform="translate(-7 -39) scale(.78)"/>
+              <use href="#fillerFloret" transform="translate(-1 -32) scale(.95)"/><use href="#fillerFloret" transform="translate(11 -32) scale(.85)"/>
+              <use href="#fillerFloret" transform="translate(12 -18) scale(.8)"/>
+            </g>
+          </defs>
+          <g id="bouquetArrangement">
+            <!-- Fan-folded back sheets behind the stems and flowers. -->
+            <g class="bouquet-paper" fill="url(#rosePaper)" stroke="#c997ae" stroke-width=".8" stroke-linejoin="round">
+              <path d="M177 282Q119 227 49 135L31 103l31 4-13-36 49-36 35 48 4-45 56-20 27 49 26-31 62 16-13 50 34 10-20 51-19 13 1 26Z"/>
+              <path d="M177 277Q140 187 71 80l28-45 67 88-25-82 51-23 31 70-20 94 57-140 40 16-36 119Z" fill="#f7dce6" opacity=".76"/>
+              <path fill="none" stroke="#fbefef" d="M57 109q51 39 98 119M135 85q24 42 32 102m78-131q-18 63-29 110m85-48q-16 20-26 40"/>
+            </g>
+            <g class="bouquet-stems" fill="none" stroke="#75896c" stroke-width="2.5" stroke-linecap="round">
+              <path pathLength="1" d="M139 378Q159 329 177 274T251 131"/><path pathLength="1" d="M199 389Q188 323 177 273T98 121"/>
+              <path pathLength="1" d="M162 391Q174 332 178 274T212 91"/><path pathLength="1" d="M221 383Q195 324 179 274T130 101"/>
+              <path pathLength="1" d="M181 386Q177 316 178 274T183 81"/>
+            </g>
+            <g fill="#74876d" stroke="#6c806a" stroke-width=".6">
+              <path class="bouquet-greenery" d="M89 158Q100 100 141 100q48-33 77 4 40 9 43 53-2 35-64 59l-58 3Z"/>
+              <g transform="translate(99 124) rotate(-18) scale(0.69)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(136 101) rotate(5) scale(0.58)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(188 109) rotate(104) scale(0.75)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(233 108) rotate(98) scale(0.71)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(254 161) rotate(102) scale(0.8)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(118 172) rotate(-26) scale(0.96)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(161 157) rotate(-4) scale(0.7)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(178 104) rotate(-12) scale(0.63)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(217 195) rotate(110) scale(0.79)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(124 207) rotate(-21) scale(1)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(161 203) rotate(11) scale(0.76)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+              <g transform="translate(202 201) rotate(93) scale(0.76)"><use class="bouquet-leaf" href="#roseFoliage"/></g>
+            </g>
+            <g class="bouquet-roses">
+              <g transform="translate(128 99) rotate(-29) scale(0.78 0.71)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(153 86) rotate(-16) scale(0.76 0.81)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(184 81) rotate(9) scale(0.7 0.78)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(212 88) rotate(14) scale(0.72 0.82)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(235 103) rotate(28) scale(0.83 0.79)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(97 120) rotate(-42) scale(0.84 0.85)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(135 124) rotate(-21) scale(1.02 0.93)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(170 110) rotate(12) scale(0.89 0.86)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(208 116) rotate(-17) scale(0.95 0.93)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(251 130) rotate(32) scale(0.9 0.92)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(85 152) rotate(-28) scale(0.86 0.94)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(111 149) rotate(-15) scale(0.93 0.89)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(152 149) rotate(13) scale(1.03 0.98)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(186 140) rotate(-19) scale(1 0.97)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(227 149) rotate(41) scale(1.04 0.96)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(260 155) rotate(34) scale(0.73 0.77)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(106 177) rotate(-31) scale(0.82 0.93)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(132 183) rotate(-18) scale(1.02 0.98)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(172 178) rotate(8) scale(1.13 1.06)"><use class="bouquet-bloom" href="#roseCorolla"/></g>
+              <g transform="translate(211 175) rotate(26) scale(0.94 0.98)"><use class="bouquet-bloom" href="#roseBud"/></g>
+              <g transform="translate(242 178) rotate(32) scale(0.73 0.81)"><use class="bouquet-bloom" href="#roseBud"/></g>
+            </g>
+            <g color="#fffaec">
+              <g transform="translate(104 183) rotate(-27) scale(0.68)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(127 221) rotate(-56) scale(0.86)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(140 227) rotate(-17) scale(0.82)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(155 218) rotate(-5) scale(0.52)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(171 232) rotate(-15) scale(0.72)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(183 224) rotate(7) scale(0.78)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(198 229) rotate(36) scale(0.93)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(218 215) rotate(28) scale(0.83)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(235 201) rotate(43) scale(0.67)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(256 174) rotate(40) scale(0.52)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+              <g transform="translate(217 101) rotate(30) scale(0.48)"><use class="bouquet-bloom" href="#roseFiller"/></g>
+            </g>
+            <!-- Turned tissue edges and overlapping outer paper meet at the tie. -->
+            <g class="bouquet-paper" stroke-width=".8" stroke-linejoin="round">
+              <path fill="url(#roseTissue)" stroke="#d5bfc5" d="M65 169q25 41 75 51l14-5 15 8 19-8 13 3q37-9 73-39-11 33-54 65l-39 34q-45-24-71-43-31-24-45-66Z"/>
+              <path fill="url(#rosePaper)" stroke="#c995af" d="M175 275Q118 230 63 211l-23-6q20-9 12-26l-6-15q12-6 30 13 46 47 95 58l18 27Z"/>
+              <path fill="url(#rosePaper)" stroke="#c995af" d="M177 276q61-29 108-50l20-8-28 2q13-15 14-37l-2-11q-19 37-61 57l-36 12Z"/>
+              <path fill="none" stroke="#fff1ee" stroke-width="1.6" d="M71 178q36 44 89 63m36 11q24-14 56-24"/>
+              <path fill="url(#roseTissue)" stroke="#d8c3c6" d="M109 216q15 4 27 7-8-15 1-14 17 5 31 25 9-14 20-14 11-3 20-13 5 9-5 21 15-2 34-13-11 22-53 56l-8 3q-43-31-67-58Z"/>
+              <path fill="none" stroke="#d0b9bd" d="M135 219q13 13 31 36m18-18-6 22m27-34q-8 13-18 23"/>
+              <path fill="url(#rosePaper)" stroke="#ce9db5" d="M169 263l19 1q10 51 41 111l-18-1 6 17q-23 6-43-2l-14 5-28-7 2-10-19 1q25-58 54-115Z"/>
+              <path fill="#f8dce8" opacity=".76" d="M176 271q4 68-1 118l-17 4q16-63 18-122Z"/>
+              <path fill="none" stroke="#d5a6bc" d="M174 282q-14 55-23 85m34-85q4 35 18 69"/>
+            </g>
+            <g transform="translate(179 269)">
+              <g class="bouquet-ribbon" fill="url(#roseRibbon)" stroke="#b59c83" stroke-width=".85" stroke-linejoin="round">
+                <path d="M-2-1c-11-5-39-15-44-6-7 12 1 17 12 14 12-4 22-7 32-5ZM2 0c11-12 33-21 42-14 9 7 3 16-6 19C27 8 15 1 2 3Z"/>
+                <path d="M-5 2c-6 23-16 55-29 77l12-4 5 6c7-26 10-54 17-78ZM2 2c7 26 19 53 30 70l1-9 9 1C28 46 18 24 9 1Z"/>
+                <path d="M-5-4q6-4 12 0l-1 8q-5 4-12 0Z"/>
+                <path fill="none" stroke="#d2b26f" stroke-width=".9" d="M-39-6q14 0 29 6M12-1q17-8 27-9M-7 15q-8 32-17 52m36-55q8 23 20 45"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+        <button type="button" class="bouquet-trigger" aria-label="Inspect the China rose bouquet" aria-haspopup="dialog" aria-controls="bouquetViewer" hidden>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
   </section>
 
   <!-- Subtle drifting lavender petals overlay -->
   <canvas id="ambientCanvas" class="ambient-canvas" aria-hidden="true"></canvas>
 
+  <dialog id="bouquetViewer" class="bouquet-viewer" aria-label="Inspect the China rose bouquet">
+    <button type="button" class="bouquet-close" aria-label="Close bouquet" autofocus>✕</button>
+    <svg class="bouquet-detail" viewBox="22 0 316 416" role="img" aria-label="A bouquet of pink China roses">
+      <use href="#bouquetArrangement"/>
+    </svg>
+    <button type="button" class="bouquet-motion">Pause sway</button>
+  </dialog>
+
   <!-- Archival Portrait Lightbox Modal (counter-free) -->
-  <div class="lightbox-modal" id="lightboxModal" aria-hidden="true">
+  <dialog class="lightbox-modal" id="lightboxModal" aria-label="Gallery photographs">
     <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
     <div class="lightbox-card" id="lightboxCard">
       <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close photograph">✕</button>
-      <div class="lightbox-img-wrap">
-        <img src="" alt="" id="lightboxImg" class="lightbox-img" />
+      <div class="lightbox-img-wrap" aria-live="polite" aria-atomic="true">
+        <img alt="" id="lightboxImg" class="lightbox-img" />
       </div>
       <div class="lightbox-controls">
         <button type="button" class="lightbox-nav-btn" id="lightboxPrev" aria-label="Previous photograph">❮</button>
-        <p class="lightbox-caption" id="lightboxCaption"></p>
         <button type="button" class="lightbox-nav-btn" id="lightboxNext" aria-label="Next photograph">❯</button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- Minimal Velvet-Gold Music Jewel Pill -->
-  <div class="music-pill paused" id="musicPill">
-    <button type="button" class="music-toggle-btn" id="musicToggle" aria-label="Toggle music" title="Play Ikaw Lang Ang Mamahalin">
+  <button type="button" class="music-pill paused" id="musicToggle" aria-label="Play Ikaw Lang Ang Mamahalin" title="Play Ikaw Lang Ang Mamahalin">
+    <span class="music-toggle-btn" aria-hidden="true">
       <svg class="vinyl-disc" id="vinylDisc" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M9 18V5l12-2v13"/>
         <circle cx="6" cy="18" r="3"/>
         <circle cx="18" cy="16" r="3"/>
       </svg>
-    </button>
-    <div class="music-info">
+    </span>
+    <span class="music-info">
       <span class="music-title">Ikaw Lang Ang Mamahalin</span>
-    </div>
-    <div class="music-soundwaves" id="soundWaves" aria-hidden="true">
+    </span>
+    <span class="music-soundwaves" id="soundWaves" aria-hidden="true">
       <span></span><span></span><span></span><span></span>
-    </div>
-  </div>
+    </span>
+  </button>
 
   <!-- Wax Seal Back to Top Button -->
   <button type="button" class="wax-seal-btn" id="waxSealBtn" aria-label="Back to top" title="Return to top">

@@ -6,8 +6,7 @@
 .book-section {
   position: relative;
   width: 100%;
-  height: calc(100vh + 13 * 72vh);
-  min-height: calc(100vh + 5600px);
+  height: calc(100vh + var(--book-turns, 1) * max(72vh, 430px));
   background: radial-gradient(ellipse at 50% 42%, #2c1e1b 0%, #191110 64%, #0f0a09 100%);
   opacity: 0;
   transition: opacity 0.9s ease;
@@ -293,7 +292,7 @@
   pointer-events: none;
 }
 
-/* ── The 13 Interactive 3D Leaves ── */
+/* ── Interactive 3D Leaves ── */
 #bookLeavesContainer {
   position: absolute;
   inset: 0;
@@ -352,7 +351,7 @@
 }
 
 /* Inner spine gutter shadows on front vs back faces */
-.leaf-face--front::before {
+.leaf-face--front:not(.cover-front-face)::before {
   content: '';
   position: absolute;
   left: 0;
@@ -474,21 +473,6 @@
   color: var(--gold-soft);
 }
 
-.cover-front-face::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at var(--cover-glint-x, 40%) var(--cover-glint-y, 35%),
-    rgba(255, 240, 190, 0.16) 0%,
-    rgba(212, 175, 55, 0.05) 40%,
-    transparent 65%
-  );
-  pointer-events: none;
-  z-index: 10;
-  transition: opacity 0.3s ease;
-}
-
 /* Spine ribs ridge on front leather cover */
 .cover-spine-ribs {
   position: absolute;
@@ -601,7 +585,7 @@
 }
 
 /* ═══════════════════════════════════════════════════
-   LEFT PHOTO PAGE (Back Face of Leaves 0..11)
+   LEFT PHOTO PAGE
 ═══════════════════════════════════════════════════ */
 .book-photo-page {
   padding: 1.5rem 1.75rem 1.5rem 1.5rem;
@@ -664,7 +648,7 @@
 .photo-mount-corner--br { bottom: 3px; right: 3px; border-width: 0 2px 2px 0; }
 
 /* ═══════════════════════════════════════════════════
-   RIGHT STORY PAGE (Front Face of Leaves 1..12)
+   RIGHT STORY PAGE
 ═══════════════════════════════════════════════════ */
 .book-story-page {
   padding: 1.35rem 1.45rem 1.15rem 1.8rem;
@@ -696,7 +680,7 @@
   font-variant-caps: small-caps;
   font-size: 0.88rem;
   letter-spacing: 0.2em;
-  color: var(--lavender-dark);
+  color: var(--plum-ink);
   font-weight: 600;
 }
 
@@ -759,8 +743,7 @@
 .story-handwritten-note {
   font-family: var(--ff-dance);
   font-size: 1.15rem;
-  color: var(--lavender-dark);
-  opacity: 0.92;
+  color: var(--plum-ink);
 }
 
 .story-footer-row {
@@ -957,8 +940,8 @@
 }
 
 .dock-step-btn {
-  width: 26px;
-  height: 26px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid rgba(212, 175, 55, 0.28);
   background: rgba(255, 255, 255, 0.04);
@@ -982,6 +965,17 @@
   cursor: default;
 }
 
+.book-skip-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 0.8rem 0.3rem;
+  border-left: 1px solid var(--gold-muted);
+  font-size: 1rem;
+  color: var(--gold-soft);
+  text-underline-offset: 0.2em;
+}
+
 /* ═══════════════════════════════════════════════════
    RESPONSIVE MOBILE ADAPTATION (<= 768px)
    Single-Page Portrait Antique Book w/ Left Binding
@@ -992,18 +986,22 @@
   }
 
   .dock-chapter-readout {
-    min-width: 92px;
+    min-width: 66px;
     font-size: 0.88rem;
   }
 
   .book-perspective-wrap {
     width: min(86vw, 375px);
-    height: min(63vh, 495px);
+    height: min(73dvh, calc(100dvh - 10.5rem), 495px);
     perspective: 1800px;
   }
 
   .book-assembly {
     transform: rotateX(2deg) !important;
+  }
+
+  .book-silk-ribbon {
+    transform: translateX(-50%) translateZ(-3px);
   }
 
   .book-desk-shadow {
@@ -1078,12 +1076,26 @@
   }
 
   .story-quote {
-    font-size: 0.94rem;
-    line-height: 1.4;
+    font-size: 1.04rem;
+    line-height: 1.45;
   }
 
   .story-handwritten-note {
     font-size: 0.98rem;
+  }
+}
+
+@media (max-width: 768px) and (max-height: 680px) {
+  .mobile-photo-slot .book-photo-mat img {
+    max-height: 17dvh;
+  }
+
+  .story-inner-border {
+    padding: 0.5rem 0.65rem;
+  }
+
+  .story-center-body {
+    gap: 0.25rem;
   }
 }
 
@@ -1094,4 +1106,29 @@
   .book-photo-mat img {
     max-height: 41vh;
   }
+}
+
+/* Mount the dinner portraits and their centerpiece on a single strip of paper. */
+.mobile-photo-slot:has(> .book-photo-mat--trio) {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+:is(.book-photo-frame-area, .mobile-photo-slot) .book-photo-mat--trio {
+  display: grid;
+  height: min(100%, 490px);
+  width: auto;
+  aspect-ratio: 2 / 5;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: clamp(3px, 0.5vw, 7px);
+  padding: clamp(6px, 0.7vw, 10px);
+}
+
+:is(.book-photo-frame-area, .mobile-photo-slot) .book-photo-mat--trio img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: none;
+  object-fit: cover;
 }

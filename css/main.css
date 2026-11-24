@@ -13,6 +13,7 @@
   --lavender:      #c4a8d4;
   --lavender-light:#e8d8f4;
   --lavender-dark: #9b7cb8;
+  --plum-ink:      #724c79;
   --lavender-muted:#d4c0e4;
   --rose:          #d4a0b4;
   --rose-light:    #f0d4e0;
@@ -86,6 +87,21 @@ button {
   font-family: inherit;
 }
 
+:where(button, a, input, textarea):focus-visible {
+  outline: 3px solid #946d35;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
 textarea, input {
   font-family: var(--ff-serif);
 }
@@ -113,6 +129,7 @@ textarea, input {
 
 /* ── Music Jewel Pill (Quiet Plum Velvet & Gold Foil) ── */
 .music-pill {
+  min-height: 44px;
   position: fixed;
   bottom: 1.2rem;
   right: 1.2rem;

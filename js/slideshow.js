@@ -17,6 +17,7 @@
   const dockNextBtn      = document.getElementById('dockNextBtn');
   const readoutEl        = document.getElementById('bookReadout');
   const enterBtn         = document.getElementById('enterBtn');
+  const reducedMotion    = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const heroSection      = document.getElementById('hero-section');
   const gallerySection   = document.getElementById('gallery-section');
@@ -24,19 +25,19 @@
 
   if (!slideshowSection || !dataContainer || !leavesContainer) return;
 
-  // ── Extract the 12 Chapters cleanly from HTML data source ──
-  const chapters = Array.from(dataContainer.querySelectorAll('.book-chapter-item')).map((el, idx) => ({
+  const chapters = Array.from(dataContainer.content.querySelectorAll('.book-chapter-item')).map((el, idx) => ({
     index:    idx,
-    img:      el.dataset.img,
-    alt:      el.dataset.alt || `Memory ${idx + 1}`,
+    photos:   Array.from(el.querySelectorAll('img')),
     numeral:  el.dataset.numeral || String(idx + 1),
     subtitle: el.dataset.subtitle || '',
     title:    el.dataset.title || '',
     quote:    el.dataset.quote || ''
   }));
 
-  const TOTAL_LEAVES = chapters.length + 1; // Leaf 0 (Cover) + 12 chapter leaves = 13 turns
-  const TOTAL_TURNS  = TOTAL_LEAVES;        // States 0..13 (0=Cover, 1..12=Chapters I..XII, 13=Epilogue)
+  if (!chapters.length) return;
+  const TOTAL_LEAVES = chapters.length + 1; // Cover plus one leaf per chapter
+  const TOTAL_TURNS  = TOTAL_LEAVES;
+  slideshowSection.style.setProperty('--book-turns', TOTAL_TURNS);
 
   let leaves = [];
   let leafMeta = [];
@@ -133,12 +134,16 @@
     }
   }
 
-  // ── Preload images gently once book initializes ──
-  function preloadBookPhotos() {
-    chapters.forEach((ch) => {
-      const img = new Image();
-      img.src = ch.img;
-    });
+  function createPhotoMat(chapter, tilt) {
+    const groupClass = chapter.photos.length > 1 ? ' book-photo-mat--trio' : '';
+    return `
+      <figure class="book-photo-mat${groupClass}" style="--plate-tilt: ${tilt}deg;">
+        <span class="photo-mount-corner photo-mount-corner--tl"></span>
+        <span class="photo-mount-corner photo-mount-corner--tr"></span>
+        <span class="photo-mount-corner photo-mount-corner--bl"></span>
+        <span class="photo-mount-corner photo-mount-corner--br"></span>
+        ${chapter.photos.map(photo => photo.outerHTML).join('')}
+      </figure>`;
   }
 
   // ── Render Left Photo Face Markup ──
@@ -149,13 +154,7 @@
         <div class="leaf-paper-glare" aria-hidden="true"></div>
         <div class="leaf-cast-shadow" aria-hidden="true"></div>
         <div class="book-photo-frame-area">
-          <figure class="book-photo-mat" style="--plate-tilt: ${tilt}deg;">
-            <span class="photo-mount-corner photo-mount-corner--tl"></span>
-            <span class="photo-mount-corner photo-mount-corner--tr"></span>
-            <span class="photo-mount-corner photo-mount-corner--bl"></span>
-            <span class="photo-mount-corner photo-mount-corner--br"></span>
-            <img src="${escapeHtml(chapter.img)}" alt="${escapeHtml(chapter.alt)}" loading="eager" />
-          </figure>
+          ${createPhotoMat(chapter, tilt)}
         </div>
       </div>
     `;
@@ -179,13 +178,7 @@
 
           <!-- Shown cleanly on <=768px portrait mobile single-page view -->
           <div class="mobile-photo-slot">
-            <figure class="book-photo-mat" style="--plate-tilt: -0.4deg;">
-              <span class="photo-mount-corner photo-mount-corner--tl"></span>
-              <span class="photo-mount-corner photo-mount-corner--tr"></span>
-              <span class="photo-mount-corner photo-mount-corner--bl"></span>
-              <span class="photo-mount-corner photo-mount-corner--br"></span>
-              <img src="${escapeHtml(chapter.img)}" alt="${escapeHtml(chapter.alt)}" loading="eager" />
-            </figure>
+            ${createPhotoMat(chapter, -0.4)}
           </div>
 
           <div class="story-center-body">
@@ -207,7 +200,7 @@
     `;
   }
 
-  // ── Build All 13 Interactive 3D Leaves ──
+  // ── Build the interactive 3D leaves ──
   function buildBookLeaves() {
     leavesContainer.innerHTML = '';
     leaves = [];
@@ -251,13 +244,13 @@
           ${createPhotoPageMarkup(chapters[0], true)}
         `;
       } else if (k < TOTAL_LEAVES - 1) {
-        // Leaves 1..11: Story k on front, Photo k+1 on back
+        // The next chapter's photos appear on the back of this leaf.
         leaf.innerHTML = `
           ${createStoryPageMarkup(chapters[k - 1])}
           ${createPhotoPageMarkup(chapters[k], false)}
         `;
       } else {
-        // Final Leaf (k = 12): Chapter XII story on front, Epilogue Left Crest on back
+        // The last chapter opens onto the epilogue.
         leaf.innerHTML = `
           ${createStoryPageMarkup(chapters[k - 1])}
           <div class="leaf-face leaf-face--back parchment-surface epilogue-left-face">
@@ -268,7 +261,7 @@
                 <span>M&amp;F</span>
                 <span>♥\uFE0E</span>
               </div>
-              <h3 class="epilogue-left-title">Twelve Chapters Read</h3>
+              <h3 class="epilogue-left-title">${chapters.length} Chapters Read</h3>
               <p class="epilogue-left-sub">
                 "Every cherished memory bound forever in these pages — and every tomorrow still belongs to us."
               </p>
@@ -304,13 +297,6 @@
     const coverFace = document.getElementById('bookFrontCoverFace');
     if (coverFace) {
       coverFace.style.cursor = 'pointer';
-      coverFace.addEventListener('mousemove', (e) => {
-        const rect = coverFace.getBoundingClientRect();
-        const x = (((e.clientX - rect.left) / rect.width) * 100).toFixed(1) + '%';
-        const y = (((e.clientY - rect.top) / rect.height) * 100).toFixed(1) + '%';
-        coverFace.style.setProperty('--cover-glint-x', x);
-        coverFace.style.setProperty('--cover-glint-y', y);
-      });
       coverFace.addEventListener('click', () => {
         playPaperRustle(1.1);
         scrollToSpread(1);
@@ -388,6 +374,10 @@
     cancelProgrammaticGlide();
 
     if (Math.abs(deltaY) < 1) return;
+    if (reducedMotion.matches) {
+      window.scrollTo({ top: destY, behavior: 'instant' });
+      return;
+    }
 
     const spreadsMoved = Math.max(1, Math.abs(clamped - currentProgress * TOTAL_TURNS));
     const duration = customDuration || Math.min(1150, 740 + (spreadsMoved - 1) * 140);
@@ -494,7 +484,7 @@
 
       // Accumulate cast shadows onto pages directly beneath active turning sheets
       if (fold > 0.005) {
-        // Right stack underneath (k + 1 front face, or boardBack for k = 12)
+        // Right stack underneath, ending at the back board
         castRightAlpha[k + 1] = Math.max(castRightAlpha[k + 1], fold * (1 - localT * 0.72) * 0.42);
         // Left stack underneath (k - 1 back face)
         if (k > 0) {
@@ -562,20 +552,27 @@
       }
       activeSpreadIdx = nearestSpread;
       uiSynced = true;
+      leafMeta.forEach(({ frontFace, backFace }, index) => {
+        frontFace.inert = index !== nearestSpread;
+        backFace.inert = index !== nearestSpread - 1;
+      });
 
       if (readoutEl) {
         if (nearestSpread === 0) {
           readoutEl.textContent = 'Cover';
         } else if (nearestSpread <= chapters.length) {
           const ch = chapters[nearestSpread - 1];
-          readoutEl.textContent = `${ch.numeral} of XII`;
+          readoutEl.textContent = `${ch.numeral} of ${chapters[chapters.length - 1].numeral}`;
         } else {
           readoutEl.textContent = 'Epilogue';
         }
       }
 
       if (dockPrevBtn) dockPrevBtn.disabled = nearestSpread === 0;
-      if (boardBack) boardBack.style.pointerEvents = nearestSpread === TOTAL_TURNS ? 'auto' : 'none';
+      if (boardBack) {
+        boardBack.inert = nearestSpread !== TOTAL_TURNS;
+        boardBack.style.pointerEvents = boardBack.inert ? 'none' : 'auto';
+      }
     }
   }
 
@@ -586,6 +583,16 @@
     lastFrameTime = now;
 
     targetProgress = readTargetProgressFromScroll();
+    if (reducedMotion.matches) {
+      const spread = Math.round(targetProgress * TOTAL_TURNS) / TOTAL_TURNS;
+      if (spread !== currentProgress) {
+        currentProgress = spread;
+        progressVelocity = 0;
+        renderBookState(spread, dt);
+      }
+      rafId = requestAnimationFrame(animationLoop);
+      return;
+    }
     const displacement = currentProgress - targetProgress;
 
     const hoverNeedsUpdate = hoverAmounts.some((val, idx) => {
@@ -626,13 +633,13 @@
     heroSection.classList.remove('hidden');
     if (gallerySection) gallerySection.classList.remove('hidden');
     if (notebookSection) notebookSection.classList.remove('hidden');
-    heroSection.scrollIntoView({ behavior: 'smooth' });
+    heroSection.focus({ preventScroll: true });
+    heroSection.scrollIntoView({ behavior: 'instant' });
   }
 
   // ── Global Desk Controls: Romantic Music & Wax Seal Scroll-to-Top ──
   function initGlobalControls() {
     const bgMusic     = document.getElementById('bgMusic');
-    const musicPill   = document.getElementById('musicPill');
     const musicToggle = document.getElementById('musicToggle');
     const waxSealBtn  = document.getElementById('waxSealBtn');
 
@@ -665,13 +672,15 @@
     }
 
     function syncPlayingUI() {
-      if (musicPill) musicPill.classList.remove('paused');
-      if (musicToggle) musicToggle.title = 'Pause "Ikaw Lang Ang Mamahalin"';
+      musicToggle.classList.remove('paused');
+      musicToggle.title = 'Pause "Ikaw Lang Ang Mamahalin"';
+      musicToggle.setAttribute('aria-label', musicToggle.title);
     }
 
     function syncPausedUI() {
-      if (musicPill) musicPill.classList.add('paused');
-      if (musicToggle) musicToggle.title = 'Play "Ikaw Lang Ang Mamahalin"';
+      musicToggle.classList.add('paused');
+      musicToggle.title = 'Play "Ikaw Lang Ang Mamahalin"';
+      musicToggle.setAttribute('aria-label', musicToggle.title);
     }
 
     function removeUnlockListeners() {
@@ -680,8 +689,7 @@
     }
 
     function attemptPlayMusic() {
-      if (!bgMusic) return Promise.resolve(false);
-      if (musicPill) musicPill.style.display = 'flex';
+      if (!bgMusic || !musicToggle) return Promise.resolve(false);
       bgMusic.volume = 0;
       return bgMusic.play().then(() => {
         syncPlayingUI();
@@ -700,10 +708,6 @@
       if (bgMusic && bgMusic.paused) {
         attemptPlayMusic();
       }
-    }
-
-    if (musicPill) {
-      musicPill.style.display = 'flex';
     }
 
     if (musicToggle && bgMusic) {
@@ -738,7 +742,8 @@
       waxSealBtn.addEventListener('click', () => {
         cancelProgrammaticGlide();
         clearTimeout(settleTimer);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        dockNextBtn.focus({ preventScroll: true });
       });
     }
   }
@@ -749,7 +754,6 @@
       initialized = true;
       buildBookLeaves();
     }
-    preloadBookPhotos();
 
     slideshowSection.classList.remove('hidden');
     slideshowSection.classList.add('visible');
@@ -802,6 +806,11 @@
   if (dockPrevBtn) dockPrevBtn.addEventListener('click', handlePrev);
   if (dockNextBtn) dockNextBtn.addEventListener('click', handleNext);
   if (enterBtn) enterBtn.addEventListener('click', scrollToScrapbookBelow);
+  document.querySelector('.book-skip-link').addEventListener('click', (event) => {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    scrollToScrapbookBelow();
+  });
 
   // Keyboard support while viewing book section
   document.addEventListener('keydown', (e) => {

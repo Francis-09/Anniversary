@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════
-   GALLERY.JS — GSAP Animations, Lightbox, Love Counter & Petals
+   GALLERY.JS — Gallery Reveals, Lightbox, Love Counter & Petals
 ═══════════════════════════════════════════════════ */
 
 (function () {
@@ -81,70 +81,37 @@
     const backdrop    = document.getElementById('lightboxBackdrop');
     const closeBtn    = document.getElementById('lightboxClose');
     const imgEl       = document.getElementById('lightboxImg');
-    const captionEl   = document.getElementById('lightboxCaption');
     const prevBtn     = document.getElementById('lightboxPrev');
     const nextBtn     = document.getElementById('lightboxNext');
 
-    if (!modal || !imgEl || !captionEl) return;
+    if (!modal || !imgEl) return;
 
-    // Collect all archival prints & triptych miniature frames
-    const items = [];
-    document.querySelectorAll('.polaroid').forEach((p) => {
-      const img = p.querySelector('img');
-      const cap = p.querySelector('.polaroid-caption');
-      if (img) {
-        items.push({
-          src: img.src,
-          alt: img.alt || 'Our Memory',
-          caption: cap ? cap.textContent : 'Maria & Francis'
-        });
-        p.addEventListener('click', () => {
-          const idx = items.findIndex(item => item.src === img.src);
-          openLightbox(idx >= 0 ? idx : 0);
-        });
-      }
-    });
-
-    // Support clicking triptych keepsake frames
-    document.querySelectorAll('.archival-trio .trio-frame').forEach((tf) => {
-      const img = tf.querySelector('img');
-      if (img) {
-        items.push({
-          src: img.src,
-          alt: img.alt || 'Cherished Moment',
-          caption: tf.dataset.caption || 'Cherished Moment'
-        });
-        tf.style.cursor = 'pointer';
-        tf.addEventListener('click', () => {
-          const idx = items.findIndex(item => item.src === img.src);
-          openLightbox(idx >= 0 ? idx : 0);
-        });
-      }
-    });
-
+    const items = Array.from(document.querySelectorAll('.polaroid, .trio-frame'));
     let activeIndex = 0;
+    let opener = null;
 
-    function openLightbox(idx) {
-      if (!items.length) return;
-      activeIndex = idx;
-      updateLightboxContent();
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    }
+    items.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        opener = item;
+        activeIndex = index;
+        updateLightboxContent();
+        modal.showModal();
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      });
+    });
 
-    function closeLightbox() {
-      modal.classList.remove('active');
-      modal.setAttribute('aria-hidden', 'true');
+    modal.addEventListener('close', () => {
       document.body.style.overflow = '';
-    }
+      opener?.focus({ preventScroll: true });
+    });
 
     function updateLightboxContent() {
       if (!items[activeIndex]) return;
       const item = items[activeIndex];
-      imgEl.src = item.src;
-      imgEl.alt = item.alt;
-      captionEl.textContent = item.caption;
+      const img = item.querySelector('img');
+      imgEl.src = img.src;
+      imgEl.alt = img.alt;
     }
 
     function showNext() {
@@ -159,14 +126,12 @@
       updateLightboxContent();
     }
 
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (backdrop) backdrop.addEventListener('click', closeLightbox);
+    if (closeBtn) closeBtn.addEventListener('click', () => modal.close());
+    if (backdrop) backdrop.addEventListener('click', () => modal.close());
     if (nextBtn)  nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
     if (prevBtn)  prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
 
-    document.addEventListener('keydown', (e) => {
-      if (!modal.classList.contains('active')) return;
-      if (e.key === 'Escape') closeLightbox();
+    modal.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') showNext();
       if (e.key === 'ArrowLeft') showPrev();
     });
@@ -287,143 +252,35 @@
 
   let galleryInitialized = false;
 
-  // ── GSAP ScrollTrigger animations ──
   window.initGallery = function () {
+    if (galleryInitialized) return;
+    galleryInitialized = true;
     initLoveCounter();
     initLightbox();
-    initAmbientPetals();
-
-    if (galleryInitialized) {
-      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-      return;
-    }
-    galleryInitialized = true;
-
-    if (typeof gsap === 'undefined') {
-      console.warn('GSAP not loaded, using fallback');
-      fallbackReveal();
-      return;
-    }
-
-    gsap.registerPlugin(ScrollTrigger);
-
     applyRotations();
     setupHoverEffects();
 
-    // Animate polaroid wraps (single clean fromTo tween)
-    document.querySelectorAll('.polaroid-wrap').forEach((wrap, i) => {
-      const fromLeft = wrap.classList.contains('polaroid-wrap--left');
-      gsap.fromTo(
-        wrap,
-        { opacity: 0, y: 40, x: fromLeft ? -40 : 40 },
-        {
-          scrollTrigger: {
-            trigger: wrap,
-            start: 'top 88%',
-            toggleActions: 'play none none reverse',
-          },
-          opacity: 1,
-          y: 0,
-          x: 0,
-          duration: 0.75,
-          ease: 'power2.out',
-          delay: (i % 2) * 0.08,
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (motion.matches) return;
+    initAmbientPetals();
+    if (!('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        if (!motion.matches) {
+          entry.target.animate([
+            { opacity: 0, transform: 'translateY(14px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+          ], { duration: 420, easing: 'ease-out' });
         }
-      );
+      }
     });
-
-    // Miniature triptych archival frames
-    const archivalTrio = document.querySelector('.archival-trio');
-    if (archivalTrio) {
-      gsap.to(archivalTrio, {
-        scrollTrigger: {
-          trigger: archivalTrio,
-          start: 'top 90%',
-          toggleActions: 'play none none reverse',
-        },
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power2.out',
-      });
-    }
-
-    // Gold-foil epigraph quotes
-    document.querySelectorAll('.epigraph-quote').forEach((quote, i) => {
-      gsap.to(quote, {
-        scrollTrigger: {
-          trigger: quote,
-          start: 'top 90%',
-          toggleActions: 'play none none reverse',
-        },
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        delay: i * 0.08,
-        ease: 'power2.out',
-      });
-    });
-
-    // Botanical heart flourish
-    const doodle = document.querySelector('.scrap-doodle');
-    if (doodle) {
-      gsap.to(doodle, {
-        scrollTrigger: {
-          trigger: doodle,
-          start: 'top 90%',
-          toggleActions: 'play none none reverse',
-        },
-        opacity: 1,
-        scale: 1,
-        duration: 0.7,
-        ease: 'power2.out',
-      });
-    }
-
-    // Gallery footer
-    const footer = document.querySelector('.gallery-footer-deco');
-    if (footer) {
-      gsap.to(footer, {
-        scrollTrigger: {
-          trigger: footer,
-          start: 'top 95%',
-          toggleActions: 'play none none reverse',
-        },
-        opacity: 1,
-        duration: 0.6,
-        ease: 'power1.out',
-      });
-    }
-
-    // Hero content reveal
-    gsap.from('.hero-content', {
-      scrollTrigger: {
-        trigger: '#hero-section',
-        start: 'top 80%',
-        once: true,
-      },
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: 'power2.out',
-    });
+    document.querySelectorAll('.hero-content, .gallery-grid > *, .gallery-footer-deco')
+      .forEach(element => observer.observe(element));
   };
 
-  function fallbackReveal() {
-    document.querySelectorAll('.polaroid-wrap, .archival-trio, .epigraph-quote, .scrap-doodle, .gallery-footer-deco').forEach(el => {
-      el.style.opacity = '1';
-      el.style.transform = 'none';
-    });
-    applyRotations();
-    setupHoverEffects();
-  }
-
-  // Initialize hero, gallery scroll animations, lightbox, petals & love counter immediately
   window.initGallery();
-  window.addEventListener('load', () => {
-    if (typeof ScrollTrigger !== 'undefined') {
-      ScrollTrigger.refresh();
-    }
-  });
 
 })();
